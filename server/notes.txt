@@ -1,0 +1,5 @@
+Dependencies:
+Express
+nodemon -> Automatic restore of the server on changes.
+mongoose -> DB
+morgan -> Logger

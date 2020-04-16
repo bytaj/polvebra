@@ -1,0 +1,30 @@
+{
+  "name": "polvebra",
+  "version": "1.0.0",
+  "description": "Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bytaj/polvebra.git"
+  },
+  "author": "bytaj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bytaj/polvebra/issues"
+  },
+  "homepage": "https://github.com/bytaj/polvebra#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.9",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
