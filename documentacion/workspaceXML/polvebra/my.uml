@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_dS5nAIFVEeqz8pYuKm69kg" name="NewModel">
+  <packagedElement xmi:type="uml:Class" xmi:id="_33ya8IFVEeqz8pYuKm69kg" name="User" visibility="public">
+    <ownedAttribute xmi:id="_3Y3N0IFWEeqz8pYuKm69kg" name="id"/>
+    <ownedAttribute xmi:id="_5tv3AIFVEeqz8pYuKm69kg" name="name"/>
+    <ownedAttribute xmi:id="_1mYjkIFWEeqz8pYuKm69kg" name="email"/>
+    <ownedAttribute xmi:id="_4myZgIFWEeqz8pYuKm69kg" name="password"/>
+    <ownedOperation xmi:id="_dfXDwIFXEeqz8pYuKm69kg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xbHdAIFWEeqz8pYuKm69kg" name="Account" visibility="public">
+    <ownedAttribute xmi:id="_D9zVEIFXEeqz8pYuKm69kg" name="name"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_GH1jsIFXEeqz8pYuKm69kg" memberEnd="_GH1jsYFXEeqz8pYuKm69kg _GH1jtIFXEeqz8pYuKm69kg" navigableOwnedEnd="_GH1jsYFXEeqz8pYuKm69kg _GH1jtIFXEeqz8pYuKm69kg">
+    <ownedEnd xmi:id="_GH1jsYFXEeqz8pYuKm69kg" name="1" type="_33ya8IFVEeqz8pYuKm69kg" association="_GH1jsIFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GH1jsoFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GH1js4FXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_GH1jtIFXEeqz8pYuKm69kg" name="*" type="_xbHdAIFWEeqz8pYuKm69kg" association="_GH1jsIFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GH1jtYFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GH1jtoFXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_VUZNcIFXEeqz8pYuKm69kg" name="Transsaction" visibility="public" isAbstract="true">
+    <ownedAttribute xmi:id="_fu2ksIFYEeqz8pYuKm69kg" name="Amount"/>
+    <ownedAttribute xmi:id="_g6QA0IFYEeqz8pYuKm69kg" name="Date"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_hxwGAIFXEeqz8pYuKm69kg" name="Tags" visibility="public"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_mL6kMIFXEeqz8pYuKm69kg" memberEnd="_mL6kMYFXEeqz8pYuKm69kg _mL6kNIFXEeqz8pYuKm69kg" navigableOwnedEnd="_mL6kMYFXEeqz8pYuKm69kg _mL6kNIFXEeqz8pYuKm69kg">
+    <ownedEnd xmi:id="_mL6kMYFXEeqz8pYuKm69kg" name="1" type="_33ya8IFVEeqz8pYuKm69kg" association="_mL6kMIFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mL6kMoFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mL6kM4FXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_mL6kNIFXEeqz8pYuKm69kg" name="*" type="_hxwGAIFXEeqz8pYuKm69kg" association="_mL6kMIFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mL6kNYFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mL6kNoFXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_m8lzMIFXEeqz8pYuKm69kg" memberEnd="_m8lzMYFXEeqz8pYuKm69kg _m8lzNIFXEeqz8pYuKm69kg" navigableOwnedEnd="_m8lzMYFXEeqz8pYuKm69kg _m8lzNIFXEeqz8pYuKm69kg">
+    <ownedEnd xmi:id="_m8lzMYFXEeqz8pYuKm69kg" name="1" type="_xbHdAIFWEeqz8pYuKm69kg" association="_m8lzMIFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_m8lzMoFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_m8lzM4FXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_m8lzNIFXEeqz8pYuKm69kg" name="*" type="_VUZNcIFXEeqz8pYuKm69kg" association="_m8lzMIFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_m8lzNYFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_m8lzNoFXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_373-0IFXEeqz8pYuKm69kg" memberEnd="_373-0YFXEeqz8pYuKm69kg _373-1IFXEeqz8pYuKm69kg" navigableOwnedEnd="_373-0YFXEeqz8pYuKm69kg _373-1IFXEeqz8pYuKm69kg">
+    <ownedEnd xmi:id="_373-0YFXEeqz8pYuKm69kg" name="*" type="_VUZNcIFXEeqz8pYuKm69kg" association="_373-0IFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_373-0oFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_373-04FXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_373-1IFXEeqz8pYuKm69kg" name="*" type="_hxwGAIFXEeqz8pYuKm69kg" association="_373-0IFXEeqz8pYuKm69kg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_373-1YFXEeqz8pYuKm69kg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_373-1oFXEeqz8pYuKm69kg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_6LuhkIFXEeqz8pYuKm69kg" name="Outlay" visibility="public">
+    <generalization xmi:id="_mEUR8IFYEeqz8pYuKm69kg" general="_VUZNcIFXEeqz8pYuKm69kg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_U5hZ4IFYEeqz8pYuKm69kg" name="Deposit" visibility="public">
+    <generalization xmi:id="_oFlmIIFYEeqz8pYuKm69kg" general="_VUZNcIFXEeqz8pYuKm69kg"/>
+  </packagedElement>
+</uml:Model>
