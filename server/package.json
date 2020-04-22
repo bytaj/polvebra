@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node main",
     "dev": "nodemon main",
-    "test": "mocha ./src/test"
+    "test": "mocha --recursive ./src/test/"
   },
   "repository": {
     "type": "git",
