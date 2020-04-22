@@ -1,58 +1,14 @@
 class User {
     constructor() {
+        this.name = null;
+        this.email = null;
+        this.passwoed = null;
+
         this.accounts = new Array();
         this.tags = new Array();
     }
 
-    get name (){
-        return this.name;
-    }
-
-    set name(name){
-        this.name = name;
-    }
-
-    get email (){
-        return this.email;
-    }
-
-    set email(email){
-        this.email = email;
-    }
-
-    get password (){
-        return this.password;
-    }
-
-    set password(password){
-        this.password = password;
-    }
-    
-    get accounts (){
-        return this.accounts;
-    }
-
-    set accounts(accounts){
-        this.accounts = accounts;
-    }
-
-    get tags (){
-        return this.tags;
-    }
-
-    set tags(tags){
-        this.tags = tags;
-    }
-
-
-
-
-
-
-
-    
-
-    getAllBalance(){
+    get allBalance(){
         balance = 0;
         accounts.forEach(ac => {
             balance+= ac.getAllBalance();
@@ -60,7 +16,7 @@ class User {
         return balance;
     }
 
-    getNetBalance(){
+    get netBalance(){
         balance = 0;
         accounts.forEach(ac => {
             balance+= ac.getNetBalance();
@@ -69,3 +25,5 @@ class User {
     }
 
   }
+
+module.exports = User;

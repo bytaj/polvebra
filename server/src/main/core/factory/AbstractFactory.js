@@ -1,4 +1,4 @@
-import UserFactory from './userFactory';
+const UserFactory = require('./UserFactory')
 
 class AbstractFactory{
     constructor(){
@@ -9,3 +9,5 @@ class AbstractFactory{
         return UserFactory.getInstance();
     }
 }
+
+module.exports = AbstractFactory;
