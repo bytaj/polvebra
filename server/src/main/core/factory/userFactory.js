@@ -1,4 +1,4 @@
-const User = require('../model/User');
+const UserBuilder = require('./UserBuilder');
 
 class UserFactory{
     constructor(){
@@ -12,8 +12,8 @@ class UserFactory{
         return this.instance;
     }
 
-    createUser(){
-        return new User();
+    createUserBuilder(){
+        return new UserBuilder();
     }
 }
 

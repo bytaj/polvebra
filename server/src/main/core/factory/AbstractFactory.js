@@ -1,12 +1,18 @@
-const UserFactory = require('./UserFactory')
+const UserFactory = require('./UserFactory');
+const AccountFactory = require('./AccountFactory');
+const TranssactionFactory = require('./TranssactionFactory');
 
 class AbstractFactory{
-    constructor(){
-        
-    }
-
     static getUserFactory(){
         return UserFactory.getInstance();
+    }
+
+    static getTranssactionFactory(){
+        return TranssactionFactory.getInstance();
+    }
+
+    static getAccountFactory(){
+        return AccountFactory.getInstance();
     }
 }
 

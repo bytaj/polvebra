@@ -1,5 +1,15 @@
+GitHub: https://github.com/bytaj/polvebra
+
 Dependencies:
 Express
 nodemon -> Automatic restore of the server on changes.
 mongoose -> DB
 morgan -> Logger
+
+
+
+
+Software
+NodeJS: https://nodejs.org/es/download/
+MongoDB: https://www.mongodb.com/download-center
+UML diagram http://www.umldesigner.org/download/
