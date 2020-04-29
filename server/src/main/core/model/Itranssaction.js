@@ -1,4 +1,4 @@
-const Constans = require('../../helpers/Constants').constans;
+const Constans = require('../../helpers/Constants').constants;
 
 class ITranssaction{
     constructor(){
@@ -13,15 +13,15 @@ class ITranssaction{
     }
 
     getTotalAmount(){
-        this.getAmout(ALL_AMOUNT);
+        return this.getAmout(Constans.ALL_AMOUNT);
     }
 
     getNetAmount(){
-        this.getAmout(NET_AMOUNT);
+        return this.getAmout(Constans.NET_AMOUNT);
     }
 
     getRetainAmount(){
-        this.getAmout(RETAIN_AMOUNT);
+        return this.getAmout(Constans.RETAIN_AMOUNT);
     }
 
     getAmout(type){
@@ -30,22 +30,25 @@ class ITranssaction{
             this.subtranssaction.forEach(tr => {
                 switch(type){
                     case Constans.ALL_AMOUNT:
-                        subtranssactionAmount += Math.abs(tr.getAmout());
+                        subtranssactionAmount += Math.abs(tr.getAmount(type));
                         break;
                     case Constans.NET_AMOUNT:
                         if (tr.paid){
-                            subtranssactionAmount += Math.abs(tr.getAmout());
+                            subtranssactionAmount += Math.abs(tr.getAmount(type));
                             break;
                         }
                     case Constans.RETAIN_AMOUNT:
                         if (!tr.paid){
-                            subtranssactionAmount += Math.abs(tr.getAmout());
+                            subtranssactionAmount += Math.abs(tr.getAmount(type));
                             break;
                         }
                 }
             })
+            return this.amount > Math.abs(subtranssactionAmount) ? this.amount : subtranssactionAmount;
+        }else{
+            return this.amount;
         }
-        Math.abs(this.amount > subtranssactionAmount) ? this.amount : subtranssactionAmount;
+        
     }
 
     addSubTranssaction(subtranssaction){

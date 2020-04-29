@@ -5,9 +5,9 @@ const Constants = require('../../helpers/Constants').constants;
 class TranssactionBuilder{
     constructor(type){
         if (type == Constants.OUTLAY_STRING){
-            this.currentTranssaction = new Deposit();
-        }else{
             this.currentTranssaction = new Outlay();
+        }else{
+            this.currentTranssaction = new Deposit();
         }
     }
 

@@ -1,8 +1,16 @@
 const Itranssaction = require('./Itranssaction');
 
 class Outlay extends Itranssaction{
-    getAmout(){
-        return -(super.getAmout());
+    getTotalAmount(){ 
+        return -(super.getTotalAmount());
+    }
+
+    getNetAmount(){
+        return -(super.getNetAmount());
+    }
+
+    getRetainAmount(){
+        return -(super.getRetainAmount());
     }
 }
 

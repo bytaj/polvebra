@@ -1,5 +1,7 @@
-class Account{
-    constructor(){
-        this.name = null;
+class Tag{
+    constructor(name){
+        this.name = name;
     }
 }
+
+module.exports = Tag;
