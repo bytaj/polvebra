@@ -1,6 +1,6 @@
-const Itranssaction = require('./Itranssaction');
+import Itranssaction from './Itranssaction';
 
-class Outlay extends Itranssaction{
+export default class Outlay extends Itranssaction{
     getTotalAmount(){ 
         return -(super.getTotalAmount());
     }
@@ -13,5 +13,3 @@ class Outlay extends Itranssaction{
         return -(super.getRetainAmount());
     }
 }
-
-module.exports = Outlay;

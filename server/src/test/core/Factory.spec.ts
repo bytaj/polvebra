@@ -1,13 +1,14 @@
-const assert = require('assert');
-const AbstractFactory = require('../../main/core/factory/AbstractFactory');
-const User = require('../../main/core/model/User');
-const Account = require('../../main/core/model/Account');
-const Itranssaction = require('../../main/core/model/ITranssaction');
-const UserFactory = require('../../main/core/factory/UserFactory');
-const UserBuilder = require('../../main/core/factory/UserBuilder');
-const TranssactionFactory = require('../../main/core/factory/TranssactionFactory');
-const TranssactionBuilder = require('../../main/core/factory/TranssactionBuilder');
-const AccountFactory = require('../../main/core/factory/AccountFactory');
+import assert from 'assert';
+import AbstractFactory from '../../main/core/factory/AbstractFactory';
+import User from '../../main/core/model/User';
+import Account from '../../main/core/model/Account';
+//import Itranssaction from '../../main/core/model/ITranssaction';
+import UserFactory from '../../main/core/factory/UserFactory';
+import UserBuilder from '../../main/core/factory/UserBuilder';
+import TranssactionFactory from '../../main/core/factory/TranssactionFactory';
+import TranssactionBuilder from '../../main/core/factory/TranssactionBuilder';
+import AccountFactory from '../../main/core/factory/AccountFactory';
+import * as Constants from '../../main/helpers/Constants'
 
 describe('Factory', function() {
     it('AbstractFactory gets User Factory', function() {
@@ -24,12 +25,15 @@ describe('Factory', function() {
 });
 
 describe('User Factory', function() {
+    const defaultName = 'exampleName';
+    const defaultEmail = 'name@example.com';
+    const defaultPassword = '1234';
     it('UserFactory creates a UserBuilder', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder()), Object.getPrototypeOf(new UserBuilder()));
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder(defaultName, defaultEmail, defaultPassword)), Object.getPrototypeOf(new UserBuilder(defaultName, defaultEmail, defaultPassword)));
     });
 
     it('User Builder creates a User', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder().build()), Object.getPrototypeOf(new User()));
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder(defaultName, defaultEmail, defaultPassword).build()), Object.getPrototypeOf(new User(defaultName, defaultEmail, defaultPassword)));
     });
 
     describe('UserBuilder creates a User with the specifics params', function() {
@@ -37,18 +41,18 @@ describe('User Factory', function() {
         const defaultEmail = 'name@example.com';
         const defaultPassword = '1234';
 
-        const userBuilder = AbstractFactory.getUserFactory().createUserBuilder();
-        const finalUser = userBuilder.setName(defaultName).setEmail(defaultEmail).setPassword(defaultPassword).build();
+        const userBuilder = AbstractFactory.getUserFactory().createUserBuilder(defaultName, defaultEmail, defaultPassword);
+        const finalUser = userBuilder.build();
         it('Correct name', function() {
-            assert.equal(finalUser.name, defaultName);
+            assert.equal(finalUser.getName(), defaultName);
         });
 
         it('Correct email', function() {
-            assert.equal(finalUser.email, defaultEmail);
+            assert.equal(finalUser.getEmail(), defaultEmail);
         });
 
         it('Correct password', function() {
-            assert.equal(finalUser.password, defaultPassword);
+            assert.equal(finalUser.getPassword(), defaultPassword);
         });
     });
 });
@@ -58,11 +62,11 @@ describe('Account Factory', function() {
         const defaultName = 'exampleName';
         const finalAcount = AbstractFactory.getAccountFactory().createAccount(defaultName);
         it('Correct type', function() {
-            assert.equal(Object.getPrototypeOf(finalAcount), Object.getPrototypeOf(new Account()));
+            assert.equal(Object.getPrototypeOf(finalAcount), Object.getPrototypeOf(new Account("")));
         });
         
         it('Correct name', function() {
-            assert.equal(finalAcount.name, defaultName);
+            assert.equal(finalAcount.getName(), defaultName);
         });
 
     });
@@ -71,7 +75,7 @@ describe('Account Factory', function() {
 
 describe('Transsaction Factory', function() {
     it('TranssactionFactory creates a TranssactionBuilder', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getTranssactionFactory().createOutlayBuilder()), Object.getPrototypeOf(new TranssactionBuilder()));
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getTranssactionFactory().createOutlayBuilder()), Object.getPrototypeOf(new TranssactionBuilder(Constants.OUTLAY_STRING)));
     });
 
     describe('TranssactionBuilder creates a Transsaction with the specifics params', function() {
@@ -82,11 +86,11 @@ describe('Transsaction Factory', function() {
         const finalTranssaction = transsactionBuilder.setName(defaultName).setAmount(defaultAmount).build();
 
         it('Correct name', function() {
-            assert.equal(finalTranssaction.name, defaultName);
+            assert.equal(finalTranssaction.getName(), defaultName);
         });
 
         it('Correct Amount', function() {
-            assert.equal(finalTranssaction.amount, defaultAmount);
+            assert.equal(finalTranssaction.getAmount(), defaultAmount);
         });
     });
 });

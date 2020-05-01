@@ -1,7 +1,8 @@
-const TranssactionBuilder = require('./TranssactionBuilder');
-const Constants = require('../../helpers/Constants').constants;
+import TranssactionBuilder from './TranssactionBuilder';
+import * as Constants from '../../helpers/Constants';
 
-class TranssactionFactory{
+export default class TranssactionFactory{
+    private static instance?: TranssactionFactory
     constructor(){
         
     }
@@ -21,5 +22,3 @@ class TranssactionFactory{
         return new TranssactionBuilder(Constants.DEPOSIT_STRING);
     }
 }
-
-module.exports = TranssactionFactory;

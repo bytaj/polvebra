@@ -1,8 +1,8 @@
-const UserFactory = require('./UserFactory');
-const AccountFactory = require('./AccountFactory');
-const TranssactionFactory = require('./TranssactionFactory');
+import UserFactory from './UserFactory';
+import AccountFactory from './AccountFactory';
+import TranssactionFactory from './TranssactionFactory';
 
-class AbstractFactory{
+export default class AbstractFactory{
     static getUserFactory(){
         return UserFactory.getInstance();
     }
@@ -15,5 +15,3 @@ class AbstractFactory{
         return AccountFactory.getInstance();
     }
 }
-
-module.exports = AbstractFactory;
