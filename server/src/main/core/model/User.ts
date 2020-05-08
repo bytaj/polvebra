@@ -1,7 +1,7 @@
 import AbstractFactory from '../factory/AbstractFactory';
 import Account from './Account';
 import Tag from './Tag';
-import ITranssaction from './Itranssaction';
+import AbstractTransaction from './AbstractTransaction';
 
 export default class User {
     private name : string;
@@ -82,9 +82,9 @@ export default class User {
         this.accounts.push(AbstractFactory.getAccountFactory().createAccount(name));
     }
 
-    public addTranssition(transsaction:ITranssaction, account:Account){
+    public addTranssition(transaction:AbstractTransaction, account:Account){
         if (this.accounts.includes(account)){
-            account.addTranssaction(transsaction);
+            account.addTransaction(transaction);
         }
     }
     

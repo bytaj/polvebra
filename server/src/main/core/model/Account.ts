@@ -1,12 +1,12 @@
-import ITranssaction from './Itranssaction';
+import AbstractTransaction from './AbstractTransaction';
 
 export default class Account{
     private name: string;
-    private transsactions: Array<ITranssaction>;
+    private transactions: Array<AbstractTransaction>;
 
     public constructor(name : string){
         this.name = name;
-        this.transsactions = new Array();
+        this.transactions = new Array();
     }
 
     public getName():String {
@@ -17,21 +17,21 @@ export default class Account{
         this.name = name;
     }
 
-    public getTranssactions(): Array<ITranssaction>{
-        return this.transsactions;
+    public getTransactions(): Array<AbstractTransaction>{
+        return this.transactions;
     }
 
-    public setTranssaction(transsactions: Array<ITranssaction>): void{
-        this.transsactions = transsactions;
+    public setTransaction(transactions: Array<AbstractTransaction>): void{
+        this.transactions = transactions;
     }
 
-    public addTranssaction(transsactions : ITranssaction) : void{
-        this.transsactions.push(transsactions);
+    public addTransaction(transactions : AbstractTransaction) : void{
+        this.transactions.push(transactions);
     }
 
     public getBalance() : number{
         let balance = 0;
-        this.transsactions.forEach(tr => {
+        this.transactions.forEach(tr => {
             balance+= tr.getTotalAmount();
         });
         return balance;
@@ -39,7 +39,7 @@ export default class Account{
 
     public getNetBalance() : number{
         let balance = 0;
-        this.transsactions.forEach(tr => {
+        this.transactions.forEach(tr => {
             balance+= tr.getNetAmount();
         });
         return balance;

@@ -1,6 +1,6 @@
-import Itranssaction from './Itranssaction';
+import AbstractTransaction from './AbstractTransaction';
 
-export default class Outlay extends Itranssaction{
+export default class Outlay extends AbstractTransaction{
     getTotalAmount(){ 
         return -(super.getTotalAmount());
     }

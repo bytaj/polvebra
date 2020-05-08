@@ -1,4 +1,4 @@
-import Itranssaction from './Itranssaction';
+import AbstractTransaction from './AbstractTransaction';
 
-export default class Deposit extends Itranssaction{
+export default class Deposit extends AbstractTransaction{
 }

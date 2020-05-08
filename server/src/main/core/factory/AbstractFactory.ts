@@ -1,14 +1,14 @@
 import UserFactory from './UserFactory';
 import AccountFactory from './AccountFactory';
-import TranssactionFactory from './TranssactionFactory';
+import TransactionFactory from './TransactionFactory';
 
 export default class AbstractFactory{
     static getUserFactory(){
         return UserFactory.getInstance();
     }
 
-    static getTranssactionFactory(){
-        return TranssactionFactory.getInstance();
+    static getTransactionFactory(){
+        return TransactionFactory.getInstance();
     }
 
     static getAccountFactory(){
