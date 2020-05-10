@@ -5,6 +5,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 
 const app = express();
+import './persistence/mongodb/database';
 
 import indexRoutes from './routes/index';
 

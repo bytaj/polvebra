@@ -9,7 +9,11 @@ export default abstract class TransactionContainer {
     public constructor(name: string, amount: number, tag?:Tag, date?: Date){
         this.name = name;
         this.amount = amount;
-        this.tag = tag;
+        if(tag){
+            this.tag = tag;
+        }else{
+            //TODO Default tag
+        }
         if(date){
             this.date = date;
         }else{
