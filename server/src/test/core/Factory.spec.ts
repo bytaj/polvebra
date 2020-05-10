@@ -2,11 +2,11 @@ import assert from 'assert';
 import AbstractFactory from '../../main/core/factory/AbstractFactory';
 import User from '../../main/core/model/User';
 import Account from '../../main/core/model/Account';
-//import Itranssaction from '../../main/core/model/ITranssaction';
+//import AbstractTransaction from '../../main/core/model/AbstractTransaction';
 import UserFactory from '../../main/core/factory/UserFactory';
 import UserBuilder from '../../main/core/factory/UserBuilder';
-import TranssactionFactory from '../../main/core/factory/TranssactionFactory';
-import TranssactionBuilder from '../../main/core/factory/TranssactionBuilder';
+import TransactionFactory from '../../main/core/factory/TransactionFactory';
+import TransactionBuilder from '../../main/core/factory/TransactionBuilder';
 import AccountFactory from '../../main/core/factory/AccountFactory';
 import * as Constants from '../../main/helpers/Constants'
 
@@ -15,8 +15,8 @@ describe('Factory', function() {
         assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory()), Object.getPrototypeOf(UserFactory.getInstance()));
     });
 
-    it('AbstractFactory gets Transsaction Factory', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getTranssactionFactory()), Object.getPrototypeOf(TranssactionFactory.getInstance()));
+    it('AbstractFactory gets Transaction Factory', function() {
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getTransactionFactory()), Object.getPrototypeOf(TransactionFactory.getInstance()));
     });
 
     it('AbstractFactory gets Account Factory', function() {
@@ -73,24 +73,24 @@ describe('Account Factory', function() {
 });
 
 
-describe('Transsaction Factory', function() {
-    it('TranssactionFactory creates a TranssactionBuilder', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getTranssactionFactory().createOutlayBuilder()), Object.getPrototypeOf(new TranssactionBuilder(Constants.OUTLAY_STRING)));
+describe('Transaction Factory', function() {
+    it('TransactionFactory creates a TransactionBuilder', function() {
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getTransactionFactory().createOutlayBuilder("", -1)), Object.getPrototypeOf(new TransactionBuilder(Constants.OUTLAY_STRING, "", -1)));
     });
 
-    describe('TranssactionBuilder creates a Transsaction with the specifics params', function() {
+    describe('TransactionBuilder creates a Transaction with the specifics params', function() {
         const defaultName = 'exampleName';
         const defaultAmount = 2;
 
-        const transsactionBuilder = AbstractFactory.getTranssactionFactory().createOutlayBuilder();
-        const finalTranssaction = transsactionBuilder.setName(defaultName).setAmount(defaultAmount).build();
+        const transactionBuilder = AbstractFactory.getTransactionFactory().createOutlayBuilder(defaultName, defaultAmount);
+        const finalTransaction = transactionBuilder.build();
 
         it('Correct name', function() {
-            assert.equal(finalTranssaction.getName(), defaultName);
+            assert.equal(finalTransaction.getName(), defaultName);
         });
 
         it('Correct Amount', function() {
-            assert.equal(finalTranssaction.getAmount(), defaultAmount);
+            assert.equal(finalTransaction.getAmount(), defaultAmount);
         });
     });
 });
