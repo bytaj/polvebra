@@ -58,12 +58,15 @@ You will have in the left part of the screen a main menu. This menu will show th
 - **Transactions**: Opens a new screen with all your transactions in all accounts. This will be able to be sorted by date or name, by  default, the lastest day.
 
 ### Domain
+![Domain](./documentation/resources/domain.jpg "Domain")
 
 ## Installations 
 In this section I will take about the places you could download all the software for work with this repository. I will post all the things I thing you could need for the correct work.
 
 ### Directory Tree
-The directory tree you will find is ![Directory Tree](./documentation/resources/directoryTree.PNG "Directory Tree")
+The directory tree you will find is 
+
+![Directory Tree](./documentation/resources/directoryTree.PNG "Directory Tree")
 
 In this Tree you will find three main folders. 
 - The first one is the documentation folder. There you can find the UML workspace. Also you will find a resources folder, where the pictures used in this documentation will be.
