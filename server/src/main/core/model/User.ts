@@ -12,10 +12,11 @@ export default class User {
     private tags : Array<Tag>;
         
     constructor(name:string, email:string, password:string) {
+        //TODO userName
         this.name = name;
         this.email = email;
         this.password = password;
-
+        //TODO List of periodic Transaction
         this.accounts = new Array();
         this.tags = new Array();
     }

@@ -7,6 +7,7 @@ class UserMongoAdapter implements UserPersistenceAdapter{
     createUser(user:User):User|void{
         return MongoSearcher.publish(UserSchema, user);
     }
+
     searchUserByID(id:any):User|void {
         let promise:Promise<User> = MongoSearcher.consultByID(UserSchema, id);
         promise.then(user => {return user})
@@ -15,6 +16,7 @@ class UserMongoAdapter implements UserPersistenceAdapter{
                     return null;
                 });
     }
+
     searchUserByParams(params:any):User[]|void{
         let promise:Promise<User[]> = MongoSearcher.consult(UserSchema, params);
         promise.then(userArray => {return userArray})
@@ -30,6 +32,11 @@ class UserMongoAdapter implements UserPersistenceAdapter{
 
     removeUser(id:any):void{
         MongoSearcher.remove(UserSchema, id);
+    }
+
+    loginUser(name: String, password:String):User|null{
+        let userList = this.searchUserByParams({name, password})
+        return userList == null ? null : userList[0];
     }
 }
 

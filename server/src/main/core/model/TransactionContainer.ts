@@ -2,7 +2,7 @@ import Tag from './Tag';
 
 export default abstract class TransactionContainer {
     private name: string;
-    private tag?: Tag;
+    private tag: Tag;
     private amount : number;
     private date : Date;
 
@@ -12,7 +12,7 @@ export default abstract class TransactionContainer {
         if(tag){
             this.tag = tag;
         }else{
-            //TODO Default tag
+            this.tag = new Tag("");
         }
         if(date){
             this.date = date;

@@ -1,14 +1,12 @@
 export default class Tag{
     private name : string;
-    private description: string;
+    private description?: string;
     private parentTag?: Tag;
 
     constructor(name: string, description?:string){
         this.name = name;
         if(description){
             this.description = description;
-        }else{
-            this.description='';
         }
     }
 
@@ -20,7 +18,7 @@ export default class Tag{
         this.name = name;
     }
 
-    public getDescription(): string{
+    public getDescription(): string| undefined{
         return this.description;
     }
 

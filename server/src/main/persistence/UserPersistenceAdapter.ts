@@ -7,4 +7,5 @@ export default interface UserPersistenceAdapter{
     searchUserByParams(params:any):User[]|void;
     modifyUser(id: any, user:User):User|void;
     removeUser(id:any):void;
+    loginUser(name: String, password:String):User|null ;
 }

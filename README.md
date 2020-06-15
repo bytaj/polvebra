@@ -57,8 +57,53 @@ You will have in the left part of the screen a main menu. This menu will show th
 - **Accounts**: Opens a new screen with more details of yours accounts.
 - **Transactions**: Opens a new screen with all your transactions in all accounts. This will be able to be sorted by date or name, by  default, the lastest day.
 
+### Object definition and business rules
+- **User**:
+	- name: String
+	- username: String
+	- email: String
+	- password: String
+	- accounts: List(Account)
+	- tags: List(Tag)
+	- periodicTransactions: List(PeriodicTransaction)
+	- Restrictions:
+		- The email must be unique.
+		- The username must be unique.
+
+- **Account**:
+	- name: String
+	- transactions: List(Transaction)
+	
+- **Tag**
+	- name: String
+	- description: String
+	- partentTag: Tag
+	
+- **TransactionContainer**:
+	- name: String
+	- tag: Tag
+	- amount: number
+	- date: Date
+	- Types: 
+	
+		- **AbstractTransaction**:
+			- subtransaction: List(AbstractTransaction)
+			- paid: boolean
+			- Restrictions:
+				- The subtransactions had to be the same class
+				
+		- **PeriodicTransaction**
+			- account: Account
+			- endDate: Date
+			- interval: number
+			- transactionType: String
+			- lastDate: Date
+
 ### Domain
 ![Domain](./documentation/resources/domain.jpg "Domain")
+
+### User cases
+
 
 ## Installations 
 In this section I will take about the places you could download all the software for work with this repository. I will post all the things I thing you could need for the correct work.
@@ -81,6 +126,9 @@ In this Tree you will find three main folders.
 ### Backend
 - **Mongodb**: The current DB is MongoDB. This is an multiplataform NoSQL database. I used 4.2.7 version, I dont know if it works with other, I think so. 
 The version I downloaded (for windows) is that https://www.mongodb.com/dr/fastdl.mongodb.org/win32/mongodb-win32-x86_64-2012plus-4.2.7-signed.msi/download . For general download you can go here: https://www.mongodb.com/download-center/community
+
+- **Robo 3T**: This app is just a visual support to manage your MongoDB. The download links I used is: 
+	- **Windows 64 bits**: https://download-test.robomongo.org/windows/robo3t-1.3.1-windows-x86_64-7419c406.zip
 
 - **Nodejs (With Typescript)**: I used 12.17.0 version for NodeJS. The download link for multiplataform is https://nodejs.org/dist/v12.17.0/ . NodeJS is the framework I used for back end. To give a more typed coding an for having more compile options, I use Typescript instead of JavaScript. All the dependences you will need for the backend it's included in the *package.json*, for install them, just npm install at server folder.
 
