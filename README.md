@@ -132,6 +132,8 @@ The version I downloaded (for windows) is that https://www.mongodb.com/dr/fastdl
 
 - **Nodejs (With Typescript)**: I used 12.17.0 version for NodeJS. The download link for multiplataform is https://nodejs.org/dist/v12.17.0/ . NodeJS is the framework I used for back end. To give a more typed coding an for having more compile options, I use Typescript instead of JavaScript. All the dependences you will need for the backend it's included in the *package.json*, for install them, just npm install at server folder.
 
+- **Postman**: It is the program I used to make request to API developing. The download link is https://www.postman.com/downloads/
+
 - **VSCode**: I use this IDE for backend develop, you can use whatever you want, even *nano* if you want. The download link for VSC is https://code.visualstudio.com/Download
 
 All you will need to start coding the back end is have installed mongodb and be sure the services is running. After that, with NodeJS installed too, you can go to server folder. In there you will have to run in console *npm install*. That will install all the dependecies the back needs. When you have done that you have some options to run the back end:
@@ -141,6 +143,8 @@ All you will need to start coding the back end is have installed mongodb and be 
 - *npm run start:*  This command will run the backend already compiled.
 - *npm run dev:*  This command will run the backend directly in TS and with nodemon. The meaning of that is than you will have a hot reload from changes. When you code something and you save the changes, the back will be re-runned with the changes automatically.
 - *npm run test:*  This command will run the test suites for the backend.
+
+The code uses a log file. To see it in the terminal, the Windows alternative to *tail -f file.log* is *Get-Content file.log –Wait* in the powershell
 
 ### Frontend
 This part is unstarted, so I will post it when I have the version I use. The technologys I will use is the next one:

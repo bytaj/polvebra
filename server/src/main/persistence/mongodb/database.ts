@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import {mongodb} from './keys'
 
+mongoose.set('useCreateIndex', true);
+
 mongoose.connect(mongodb.URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true

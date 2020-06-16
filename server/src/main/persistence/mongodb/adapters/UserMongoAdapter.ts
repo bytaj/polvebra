@@ -5,7 +5,11 @@ import * as MongoSearcher from '../MongoSearcher';
 
 class UserMongoAdapter implements UserPersistenceAdapter{
     createUser(user:User):User|void{
-        return MongoSearcher.publish(UserSchema, user);
+        MongoSearcher.publish(UserSchema, user).then((user:User) => {
+            return user;
+        }).catch(()=> {
+            return undefined;
+        });
     }
 
     searchUserByID(id:any):User|void {

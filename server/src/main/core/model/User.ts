@@ -2,21 +2,25 @@ import AbstractFactory from '../factory/AbstractFactory';
 import Account from './Account';
 import Tag from './Tag';
 import AbstractTransaction from './AbstractTransaction';
+import logger from '../../helpers/LoggerFactory';
+import PeriodicTransaction from './PeriodicTransaction';
 
 export default class User {
     private name : string;
+    private username : string;
     private email :string;
     private password : string;
 
+    private periodicTransactions: Array<PeriodicTransaction>;
     private accounts : Array<Account>;
     private tags : Array<Tag>;
         
-    constructor(name:string, email:string, password:string) {
-        //TODO userName
+    constructor(username: string, name:string, email:string, password:string) {
+        this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
-        //TODO List of periodic Transaction
+        this.periodicTransactions = new Array;
         this.accounts = new Array();
         this.tags = new Array();
     }
@@ -28,6 +32,14 @@ export default class User {
 
     public setName(name : string) : void{
         this.name = name;
+    }
+
+    public getUsername():String {
+        return this.username;
+    }
+
+    public setUsername(username : string) : void{
+        this.username = username;
     }
 
     public getEmail():String {
@@ -60,6 +72,14 @@ export default class User {
 
     public setTags(tags: Array<Tag>): void{
         this.tags = tags;
+    }
+
+    public getPeriodicTransactions(): Array<PeriodicTransaction>{
+        return this.periodicTransactions;
+    }
+
+    public setPeriodicTransactions(periodicTransactions: Array<PeriodicTransaction>): void{
+        this.periodicTransactions = periodicTransactions;
     }
 
 
