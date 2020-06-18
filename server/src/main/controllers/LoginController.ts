@@ -2,8 +2,13 @@ import logger from '../helpers/LoggerFactory';
 import { getPersistenceController } from './PersistenceController';
 import User from '../core/model/User';
 
-export function loginUser(username: string, password: string):User|void{
-    let user = getPersistenceController().getUserAdapter().searchUserByParams({'username': username, 'password':password})
+export async function loginUser(username: string, password: string):Promise<User|void>{
+    let user; 
+    try{
+        user = await getPersistenceController().getUserAdapter().searchUserByParams({'username': username, 'password':password});
+    }catch(err){
+        console.log(err);
+    }
     return user == undefined ? undefined : user[0];
 }
 

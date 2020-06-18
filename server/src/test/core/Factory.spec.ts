@@ -25,23 +25,25 @@ describe('Factory', function() {
 });
 
 describe('User Factory', function() {
+    const defaultUsername = 'bytaj';
     const defaultName = 'exampleName';
     const defaultEmail = 'name@example.com';
     const defaultPassword = '1234';
     it('UserFactory creates a UserBuilder', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder(defaultName, defaultEmail, defaultPassword)), Object.getPrototypeOf(new UserBuilder(defaultName, defaultEmail, defaultPassword)));
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder(defaultUsername, defaultName, defaultEmail, defaultPassword)), Object.getPrototypeOf(new UserBuilder(defaultUsername, defaultName, defaultEmail, defaultPassword)));
     });
 
     it('User Builder creates a User', function() {
-        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder(defaultName, defaultEmail, defaultPassword).build()), Object.getPrototypeOf(new User(defaultName, defaultEmail, defaultPassword)));
+        assert.equal(Object.getPrototypeOf(AbstractFactory.getUserFactory().createUserBuilder(defaultUsername, defaultName, defaultEmail, defaultPassword).build()), Object.getPrototypeOf(new User(defaultUsername, defaultName, defaultEmail, defaultPassword)));
     });
 
     describe('UserBuilder creates a User with the specifics params', function() {
+        const defaultUsername = 'bytaj';
         const defaultName = 'exampleName';
         const defaultEmail = 'name@example.com';
         const defaultPassword = '1234';
 
-        const userBuilder = AbstractFactory.getUserFactory().createUserBuilder(defaultName, defaultEmail, defaultPassword);
+        const userBuilder = AbstractFactory.getUserFactory().createUserBuilder(defaultUsername,defaultName, defaultEmail, defaultPassword);
         const finalUser = userBuilder.build();
         it('Correct name', function() {
             assert.equal(finalUser.getName(), defaultName);

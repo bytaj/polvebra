@@ -15,6 +15,9 @@ router.post("/", (req, res) => {
         if (user){
             if (req.session){
                 req.session.user = user;
+                req.session.save((err)=>{
+                    logger.logError(err);
+                });
             }
             logger.logInfo("User "+ user.getUsername() + " created sucessful!");
             res.status(200);

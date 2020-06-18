@@ -14,7 +14,7 @@ export default class UserFactory{
         return this.instance;
     }
 
-    public createUserBuilder(name:string, email:string, password:string){
-        return new UserBuilder(name, email, password);
+    public createUserBuilder(username: string, name:string, email:string, password:string){
+        return new UserBuilder(username, name, email, password);
     }
 }
