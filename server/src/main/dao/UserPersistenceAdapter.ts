@@ -2,7 +2,7 @@ import User from "../core/model/User";
 
 
 export default interface UserPersistenceAdapter{
-    createUser(user:User):User|void;
+    createUser(user:User):Promise<User>;
     searchUserByID(id:any):Promise<User|void>;
     searchUserByParams(params:any):Promise<User[]|void>;
     modifyUser(id: any, user:User):User|void;

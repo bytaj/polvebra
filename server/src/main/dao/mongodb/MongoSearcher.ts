@@ -1,6 +1,6 @@
 import mongoose, {Schema, Model} from 'mongoose';
 
-export function publish (modelCreated:Model<any>, data:any):any{
+export function publish (modelCreated:Model<any>, data:any):Promise<any>{
     var elementToPublish = new modelCreated(data);
     return elementToPublish.save();
 }
@@ -24,7 +24,7 @@ export function modify (model:Model<any>, id:any, data:any):void{
 }
 
 export function remove (model:Model<any>, id:any){
-    return model.remove({"_id": id}, function (err) {
+    return model.deleteOne({"_id": id}, function (err) {
         //if (err) return handleError(err);
     });
 }

@@ -11,26 +11,27 @@ function checkCreateUserParam(req: Request):boolean{
 
 router.post("/", (req, res) => {
     if (checkCreateUserParam(req)){
-        let user = LoginController.createUser(req.body);
-        if (user){
+        LoginController.createUser(req.body).then(user =>{
             if (req.session){
                 req.session.user = user;
                 req.session.save((err)=>{
                     logger.logError(err);
                 });
             }
-            logger.logInfo("User "+ user.getUsername() + " created sucessful!");
+            logger.logInfo("User "+ req.body.username + " created sucessful!");
             res.status(200);
-        }else{
+            res.send();
+        }).catch((err) => {
             res.status(409);
             logger.logInfo("User "+ req.body.username + " and/or email " + req.body.email + " already in use");
-        }
+            res.send();
+        });
     }else{
         logger.logError("Request without all parameters");
         res.status(400);
         res.send();
     }
-    res.send();
+    
 });
 
 export default router;

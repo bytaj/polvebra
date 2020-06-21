@@ -4,7 +4,7 @@ import DepositSchema from '../models/DepositSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class DepositMongoAdapter implements DepositPersistenceAdapter{
-    createDeposit(deposit:Deposit):Deposit|void{
+    createDeposit(deposit:Deposit):Promise<Deposit|void>{
         return MongoSearcher.publish(DepositSchema, deposit);
     }
     searchDepositByID(id:any):Deposit|void {

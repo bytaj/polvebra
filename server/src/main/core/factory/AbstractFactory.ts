@@ -3,15 +3,15 @@ import AccountFactory from './AccountFactory';
 import TransactionFactory from './TransactionFactory';
 
 export default class AbstractFactory{
-    static getUserFactory(){
+    static getUserFactory():UserFactory{
         return UserFactory.getInstance();
     }
 
-    static getTransactionFactory(){
+    static getTransactionFactory():TransactionFactory{
         return TransactionFactory.getInstance();
     }
 
-    static getAccountFactory(){
+    static getAccountFactory():AccountFactory{
         return AccountFactory.getInstance();
     }
 }

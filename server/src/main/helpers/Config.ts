@@ -6,8 +6,8 @@ import {createLogger, format, transports} from 'winston';
 import bodyParser from 'body-parser';
 import LoggerFactory from './LoggerFactory'
 
-import '../persistence/mongodb/database';
-import * as url from '../persistence/mongodb/keys';
+import '../dao/mongodb/database';
+import * as url from '../dao/mongodb/keys';
 import routerConfiguration from '../routes/routerConfiguration';
 
 export function configureRoutes(app:express.Application){

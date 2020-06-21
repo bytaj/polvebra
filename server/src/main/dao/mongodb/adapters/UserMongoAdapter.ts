@@ -4,12 +4,8 @@ import UserSchema from '../models/UserSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class UserMongoAdapter implements UserPersistenceAdapter{
-    createUser(user:User):User|void{
-        MongoSearcher.publish(UserSchema, user).then((user:User) => {
-            return user;
-        }).catch(()=> {
-            return undefined;
-        });
+    async createUser(user:User):Promise<User>{
+        return MongoSearcher.publish(UserSchema, user);
     }
 
     async searchUserByID(id:any):Promise<User|void> {

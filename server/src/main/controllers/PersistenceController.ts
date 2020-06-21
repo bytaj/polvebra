@@ -1,6 +1,6 @@
-import PersistenceAdapter from "../persistence/PersistenceAdapter";
+import PersistenceAdapter from "../dao/PersistenceAdapter";
 
-import MongoPersistenceAdapter from "../persistence/mongodb/adapters/MongoPersistenceAdapter";
+import MongoPersistenceAdapter from "../dao/mongodb/adapters/MongoPersistenceAdapter";
 
 let instance:PersistenceAdapter = new MongoPersistenceAdapter();
 

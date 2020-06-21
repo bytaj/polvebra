@@ -4,7 +4,7 @@ import OutlaySchema from '../models/OutlaySchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class OutlayMongoAdapter implements OutlayPersistenceAdapter{
-    createOutlay(outlay:Outlay):Outlay|void{
+    createOutlay(outlay:Outlay):Promise<Outlay|void>{
         return MongoSearcher.publish(OutlaySchema, outlay);
     }
     searchOutlayByID(id:any):Outlay|void {

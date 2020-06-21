@@ -4,7 +4,7 @@ import TagSchema from '../models/TagSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class TagMongoAdapter implements TagPersistenceAdapter{
-    createTag(tag:Tag):Tag|void{
+    createTag(tag:Tag):Promise<Tag|void>{
         return MongoSearcher.publish(TagSchema, tag);
     }
     searchTagByID(id:any):Tag|void {

@@ -4,7 +4,7 @@ import AccountSchema from '../models/AccountSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class AccountMongoAdapter implements AccountPersistenceAdapter{
-    createAccount(account:Account):Account|void{
+    createAccount(account:Account):Promise<Account|void>{
         return MongoSearcher.publish(AccountSchema, account);
     }
     searchAccountByID(id:any):Account|void {

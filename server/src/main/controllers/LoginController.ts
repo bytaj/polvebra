@@ -12,7 +12,7 @@ export async function loginUser(username: string, password: string):Promise<User
     return user == undefined ? undefined : user[0];
 }
 
-export function createUser(value:any):User|void{
+export function createUser(value:any):Promise<User|void>{
     let user: User = <User> value;
     return getPersistenceController().getUserAdapter().createUser(user);
 }
