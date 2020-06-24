@@ -14,13 +14,14 @@ export function consult (model:Model<any>, data:any):Promise<any[]>{
     return model.find(data).exec();
 }
 
-export function modify (model:Model<any>, id:any, data:any):void{
-    model.findById(id, function (err, obje) {
-        if (obje){
-            obje.set(data);
-            obje.save();
+export async function modify (model:Model<any>, data:any):Promise<any>{
+    return await model.findById(data.getId()).then((result) => {
+        if (result){
+            result.overwrite(data);
+            return result.save();
         }
     });
+    //TODO Comprobar
 }
 
 export function remove (model:Model<any>, id:any){

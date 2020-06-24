@@ -6,6 +6,7 @@ import logger from '../../helpers/LoggerFactory';
 import PeriodicTransaction from './PeriodicTransaction';
 
 export default class User {
+    private id?: any;
     private name : string;
     private username : string;
     private email :string;
@@ -25,6 +26,15 @@ export default class User {
         this.tags = new Array();
     }
 
+    public getId():any{
+        return this.id;
+    }
+
+    public setId(id:any){
+        if (!this.id){
+            this.id = id;
+        }
+    }
 
     public getName():String {
         return this.name;
@@ -108,5 +118,7 @@ export default class User {
             account.addTransaction(transaction);
         }
     }
+
+    //TODO crear parseador JSON-User
     
 }

@@ -4,28 +4,18 @@ import AccountSchema from '../models/AccountSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class AccountMongoAdapter implements AccountPersistenceAdapter{
-    createAccount(account:Account):Promise<Account|void>{
+    createAccount(account:Account):Promise<Account>{
         return MongoSearcher.publish(AccountSchema, account);
     }
-    searchAccountByID(id:any):Account|void {
-        let promise:Promise<Account> = MongoSearcher.consultByID(AccountSchema, id);
-        promise.then(account => {return account})
-                .catch((err) => {
-                    console.log(err);
-                    return null;
-                });
+    searchAccountByID(id:any):Promise<Account> {
+        return MongoSearcher.consultByID(AccountSchema, id);
     }
-    searchAccountByParams(params:any):Account[]|void{
-        let promise:Promise<Account[]> = MongoSearcher.consult(AccountSchema, params);
-        promise.then(accountArray => {return accountArray})
-                .catch((err) => {
-                    console.log(err);
-                    return null;
-                });
+    searchAccountByParams(params:any):Promise<Account[]>{
+        return MongoSearcher.consult(AccountSchema, params);
     }
 
-    modifyAccount(id: any, account:Account):Account|void{
-        MongoSearcher.modify(AccountSchema, id, account);
+    modifyAccount(account:Account):Promise<Account>{
+        return MongoSearcher.modify(AccountSchema, account);
     }
 
     removeAccount(id:any):void{

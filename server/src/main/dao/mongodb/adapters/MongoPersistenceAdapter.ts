@@ -1,14 +1,14 @@
 import UserPersistenceAdapter from "../../UserPersistenceAdapter";
 import AccountPersistenceAdapter from "../../AccountPersistenceAdapter";
 import TagPersistenceAdapter from "../../TagPersistenceAdapter";
-import DepositPersistenceAdapter from "../../DepositPersistenceAdapter";
-import OutlayPersistenceAdapter from "../../OutlayPersistenceAdapter";
+import TransactionPersistenceAdapter from "../../TransactionPersistenceAdapter";
 import PersistenceAdapter from "../../PersistenceAdapter";
 import userMongoAdapter from "./UserMongoAdapter";
 import accountMongoAdapter from "./AccountMongoAdapter";
 import tagMongoAdapter from "./TagMongoAdapter";
-import depositMongoAdapter from "./DepositMongoAdapter";
-import outlayMongoAdapter from "./OutlayMongoAdapter";
+import transactionMongoAdapter from "./TransactionMongoAdapter";
+import PeriodicTransactionPersistenceAdapter from "../../PeriodicTransactionPersistenceAdapter";
+import periodicTransactionMongoAdapter from "./PeriodicTransactionMongoAdapter";
 
 export default class MongoPersistenceAdapter implements PersistenceAdapter{
 
@@ -24,11 +24,11 @@ export default class MongoPersistenceAdapter implements PersistenceAdapter{
         return tagMongoAdapter;
     }
 
-    getDepositAdapter():DepositPersistenceAdapter{
-        return depositMongoAdapter;
+    getTransactionAdapter():TransactionPersistenceAdapter{
+        return transactionMongoAdapter;
     }
-    
-    getOutlayAdapter():OutlayPersistenceAdapter{
-        return outlayMongoAdapter;
+
+    getPeriodicTransactionAdapter():PeriodicTransactionPersistenceAdapter{
+        return periodicTransactionMongoAdapter;
     }
 }

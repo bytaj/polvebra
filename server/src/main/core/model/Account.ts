@@ -1,12 +1,23 @@
 import AbstractTransaction from './AbstractTransaction';
 
 export default class Account{
+    private id?: any;
     private name: string;
     private transactions: Array<AbstractTransaction>;
 
     public constructor(name : string){
         this.name = name;
         this.transactions = new Array();
+    }
+
+    public getId():any{
+        return this.id;
+    }
+
+    public setId(id:any){
+        if (!this.id){
+            this.id = id;
+        }
     }
 
     public getName():String {

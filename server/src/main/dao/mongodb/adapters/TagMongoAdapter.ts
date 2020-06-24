@@ -4,28 +4,19 @@ import TagSchema from '../models/TagSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class TagMongoAdapter implements TagPersistenceAdapter{
-    createTag(tag:Tag):Promise<Tag|void>{
+    createTag(tag:Tag):Promise<Tag>{
         return MongoSearcher.publish(TagSchema, tag);
     }
-    searchTagByID(id:any):Tag|void {
-        let promise:Promise<Tag> = MongoSearcher.consultByID(TagSchema, id);
-        promise.then(tag => {return tag})
-                .catch((err) => {
-                    console.log(err);
-                    return null;
-                });
+    searchTagByID(id:any):Promise<Tag> {
+        return MongoSearcher.consultByID(TagSchema, id);
+
     }
-    searchTagByParams(params:any):Tag[]|void{
-        let promise:Promise<Tag[]> = MongoSearcher.consult(TagSchema, params);
-        promise.then(tagArray => {return tagArray})
-                .catch((err) => {
-                    console.log(err);
-                    return null;
-                });
+    searchTagByParams(params:any):Promise<Tag[]>{
+        return MongoSearcher.consult(TagSchema, params);
     }
 
-    modifyTag(id: any, tag:Tag):Tag|void{
-        MongoSearcher.modify(TagSchema, id, tag);
+    modifyTag(tag:Tag):Promise<Tag>{
+        return MongoSearcher.modify(TagSchema, tag);
     }
 
     removeTag(id:any):void{

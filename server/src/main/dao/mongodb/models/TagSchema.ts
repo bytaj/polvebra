@@ -3,7 +3,7 @@ import {Schema, model} from 'mongoose';
 const TagSchema = new Schema({
     name: {type: String, required: true},
     description: {type: String},
-    parentTag: {type: Schema.Types.ObjectId, default:null},
+    parentTag: {type: Schema.Types.ObjectId, ref: 'Tag', default:null},
 },{
     timestamps:true,
 });

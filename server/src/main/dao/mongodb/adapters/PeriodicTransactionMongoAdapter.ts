@@ -4,28 +4,19 @@ import PeriodicTransactionSchema from '../models/PeriodicTransactionSchema'
 import * as MongoSearcher from '../MongoSearcher';
 
 class PeriodicTransactionMongoAdapter implements PeriodicTransactionPersistenceAdapter{
-    createPeriodicTransaction(periodicTransaction:PeriodicTransaction):PeriodicTransaction|void{
+    createPeriodicTransaction(periodicTransaction:PeriodicTransaction):Promise<PeriodicTransaction>{
         return MongoSearcher.publish(PeriodicTransactionSchema, periodicTransaction);
     }
-    searchPeriodicTransactionByID(id:any):PeriodicTransaction|void {
-        let promise:Promise<PeriodicTransaction> = MongoSearcher.consultByID(PeriodicTransactionSchema, id);
-        promise.then(periodicTransaction => {return periodicTransaction})
-                .catch((err) => {
-                    console.log(err);
-                    return null;
-                });
+    searchPeriodicTransactionByID(id:any):Promise<PeriodicTransaction> {
+        return MongoSearcher.consultByID(PeriodicTransactionSchema, id);
+
     }
-    searchPeriodicTransactionByParams(params:any):PeriodicTransaction[]|void{
-        let promise:Promise<PeriodicTransaction[]> = MongoSearcher.consult(PeriodicTransactionSchema, params);
-        promise.then(periodicTransactionArray => {return periodicTransactionArray})
-                .catch((err) => {
-                    console.log(err);
-                    return null;
-                });
+    searchPeriodicTransactionByParams(params:any):Promise<PeriodicTransaction[]>{
+        return MongoSearcher.consult(PeriodicTransactionSchema, params);
     }
 
-    modifyPeriodicTransaction(id: any, periodicTransaction:PeriodicTransaction):PeriodicTransaction|void{
-        MongoSearcher.modify(PeriodicTransactionSchema, id, periodicTransaction);
+    modifyPeriodicTransaction(periodicTransaction:PeriodicTransaction):Promise<PeriodicTransaction>{
+        return MongoSearcher.modify(PeriodicTransactionSchema, periodicTransaction);
     }
 
     removePeriodicTransaction(id:any):void{

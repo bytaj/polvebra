@@ -1,10 +1,12 @@
 import Tag from './Tag';
 
 export default abstract class TransactionContainer {
+    private id?: any;
     private name: string;
     private tag: Tag;
     private amount : number;
     private date : Date;
+    
 
     public constructor(name: string, amount: number, tag?:Tag, date?: Date){
         this.name = name;
@@ -18,6 +20,16 @@ export default abstract class TransactionContainer {
             this.date = date;
         }else{
             this.date = new Date();
+        }
+    }
+
+    public getId():any{
+        return this.id;
+    }
+
+    public setId(id:any){
+        if (!this.id){
+            this.id = id;
         }
     }
 

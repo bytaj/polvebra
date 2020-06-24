@@ -2,13 +2,13 @@ import mongoose, {Schema, model} from 'mongoose';
 
 const OutlaySchema = new Schema({
     name: {type: String, required: true},
-    tag: {type: Schema.Types.ObjectId, required:true},
+    tag: {type: Schema.Types.ObjectId, ref: 'Tag', required:true},
     amount : {type: Number, required:true},
     date : {type: Date, required:true},
-    subtransaction : {type:[Schema.Types.ObjectId]},
+    subtransaction : {type:[Schema.Types.ObjectId],  ref:'Transaction'},
     paid :{type: Boolean, default:true}
 },{
     timestamps:true,
 });
 
-export default model('Outlay', OutlaySchema);
+export default model('Transaction', OutlaySchema);

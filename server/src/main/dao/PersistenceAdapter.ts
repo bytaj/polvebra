@@ -1,13 +1,13 @@
 import UserPersistenceAdapter from "./UserPersistenceAdapter";
 import AccountPersistenceAdapter from "./AccountPersistenceAdapter";
 import TagPersistenceAdapter from "./TagPersistenceAdapter";
-import DepositPersistenceAdapter from "./DepositPersistenceAdapter";
-import OutlayPersistenceAdapter from "./OutlayPersistenceAdapter";
+import TransactionPersistenceAdapter from "./TransactionPersistenceAdapter";
+import PeriodicTransactionPersistenceAdapter from "./PeriodicTransactionPersistenceAdapter";
 
 export default interface PersistenceAdapter{
     getUserAdapter():UserPersistenceAdapter;
     getAccountAdapter():AccountPersistenceAdapter;
     getTagAdapter():TagPersistenceAdapter;
-    getDepositAdapter():DepositPersistenceAdapter;
-    getOutlayAdapter():OutlayPersistenceAdapter;
+    getTransactionAdapter():TransactionPersistenceAdapter;
+    getPeriodicTransactionAdapter():PeriodicTransactionPersistenceAdapter;
 }
