@@ -1,6 +1,7 @@
 import {Schema, model} from 'mongoose';
 
 const PeriodicTransactionSchema = new Schema({
+    user: {type: Schema.Types.ObjectId, ref: 'User', required:true},
     name: {type: String, required: true},
     tag: {type: Schema.Types.ObjectId, ref:'Tag', required:true},
     amount : {type: Number, required:true},

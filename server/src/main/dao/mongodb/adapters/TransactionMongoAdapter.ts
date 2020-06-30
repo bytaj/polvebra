@@ -4,14 +4,23 @@ import * as MongoSearcher from '../MongoSearcher';
 import TransactionSchema from "../models/TransactionSchema";
 import Outlay from "../../../core/model/Outlay";
 import AbstractTransaction from "../../../core/model/AbstractTransaction";
+import Account from "../../../core/model/Account";
+import { Document } from "mongoose";
+import { DEPOSIT_CODE, OUTLAY_CODE } from "../keys";
 
 class TransactionMongoAdapter implements TransactionPersistenceAdapter{
-    createDeposit(deposit:Deposit):Promise<Deposit>{
-        return MongoSearcher.publish(TransactionSchema, deposit);
+    private createDocumentFromTransaction(transaction:AbstractTransaction, account:Account, type:number):Document{
+        let transactionDocument:any = new TransactionSchema(transaction);
+        transactionDocument.account = account.getId();
+        return transactionDocument;
+    }
+    createDeposit(deposit:Deposit, account:Account):Promise<Deposit>{
+        
+        return MongoSearcher.publish(this.createDocumentFromTransaction(deposit, account, DEPOSIT_CODE));
     }
 
-    createOutlay(outlay:Outlay):Promise<Outlay>{
-        return MongoSearcher.publish(TransactionSchema, outlay);
+    createOutlay(outlay:Outlay, account:Account):Promise<Outlay>{
+        return MongoSearcher.publish(this.createDocumentFromTransaction(outlay, account, OUTLAY_CODE));
     }
 
     searchTransactionByID(id:any):Promise<AbstractTransaction> {
@@ -23,7 +32,7 @@ class TransactionMongoAdapter implements TransactionPersistenceAdapter{
     }
 
     modifyTransaction(transaction:AbstractTransaction):Promise<AbstractTransaction>{
-        return MongoSearcher.modify(TransactionSchema, transaction);
+        return MongoSearcher.modify(TransactionSchema, transaction, ()=>{});
     }
 
     removeTransaction(id:any):void{

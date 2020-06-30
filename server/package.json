@@ -6,7 +6,8 @@
   "mainCompiled": "./build/src/main/index.js",
   "scripts": {
     "ts-node": "ts-node main",
-    "clean": "rmdir /Q /S build",
+    "clean-windows": "rmdir /Q /S build",
+    "clean-unix": "rm -rf build",
     "build": "tsc",
     "start": "node mainCompiled",
     "dev": "nodemon",

@@ -1,7 +1,6 @@
-import mongoose, {Schema, Model} from 'mongoose';
+import mongoose, {Schema, Model, Document} from 'mongoose';
 
-export function publish (modelCreated:Model<any>, data:any):Promise<any>{
-    var elementToPublish = new modelCreated(data);
+export function publish (elementToPublish:Document):Promise<any>{
     return elementToPublish.save();
 }
 
@@ -14,8 +13,9 @@ export function consult (model:Model<any>, data:any):Promise<any[]>{
     return model.find(data).exec();
 }
 
-export async function modify (model:Model<any>, data:any):Promise<any>{
+export async function modify (model:Model<any>, data:any, checkConditions: (objPassed:any, objFromDB:any) => any):Promise<any>{
     return await model.findById(data.getId()).then((result) => {
+        checkConditions(data, result);
         if (result){
             result.overwrite(data);
             return result.save();

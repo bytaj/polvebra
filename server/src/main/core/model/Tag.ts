@@ -1,3 +1,5 @@
+import { getPersistenceController } from "../../controllers/PersistenceController";
+
 export default class Tag{
     private id?: any;
     private name : string;
@@ -43,5 +45,18 @@ export default class Tag{
 
     public setParentTag(parentTag: Tag): void{
         this.parentTag = parentTag;
+    }
+
+    public createSonTag(name:string, description?:string):Tag{
+        let tagSon:Tag = new Tag(name, description);
+        tagSon.setParentTag(this);
+        getPersistenceController().getTagAdapter().createTag(tagSon);
+        return tagSon;
+    }
+
+    public static createTagFromJSON(json:any):Tag{
+        let tag:Tag = new Tag(json.name, json.description);
+        tag.setId(json._id.valueOf());
+        return tag;
     }
 }

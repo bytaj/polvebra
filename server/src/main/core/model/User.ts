@@ -2,8 +2,9 @@ import AbstractFactory from '../factory/AbstractFactory';
 import Account from './Account';
 import Tag from './Tag';
 import AbstractTransaction from './AbstractTransaction';
-import logger from '../../helpers/LoggerFactory';
 import PeriodicTransaction from './PeriodicTransaction';
+import { getPersistenceController } from '../../controllers/PersistenceController';
+import loggerFactory from '../../helpers/LoggerFactory';
 
 export default class User {
     private id?: any;
@@ -92,6 +93,21 @@ export default class User {
         this.periodicTransactions = periodicTransactions;
     }
 
+    createTag(tag:Tag){
+        
+    }
+
+
+    public createAccount(name:string):void {
+        this.accounts.push(AbstractFactory.getAccountFactory().createAccount(name));
+    }
+
+    public addTranssition(transaction:AbstractTransaction, account:Account){
+        if (this.accounts.includes(account)){
+            account.addTransaction(transaction);
+        }
+    }
+
 
     public getAllBalance() : number{
         let balance = 0;
@@ -109,16 +125,9 @@ export default class User {
         return balance;
     }
 
-    public createAccount(name:string):void {
-        this.accounts.push(AbstractFactory.getAccountFactory().createAccount(name));
+    public static createUserFromJSON(json:any):User{
+        let user:User = new User(json.username, json.name, json.email, json.password);
+        user.setId(json._id.valueOf());
+        return user;
     }
-
-    public addTranssition(transaction:AbstractTransaction, account:Account){
-        if (this.accounts.includes(account)){
-            account.addTransaction(transaction);
-        }
-    }
-
-    //TODO crear parseador JSON-User
-    
 }
