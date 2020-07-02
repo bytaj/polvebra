@@ -2,11 +2,11 @@ import UserPersistenceAdapter from "../../UserPersistenceAdapter";
 import User from "../../../core/model/User";
 import UserSchema from '../models/UserSchema'
 import * as MongoSearcher from '../MongoSearcher';
-import UserFactory from "../../../core/factory/UserFactory";
-import { Document } from "mongoose";
 import { getPersistenceController } from "../../../controllers/PersistenceController";
 import Tag from "../../../core/model/Tag";
 import loggerFactory from "../../../helpers/LoggerFactory";
+import * as QueryInterface from "../../QueryInterface";
+import MongoQuery from "../models/MongoQuery";
 
 const modifyUserFunction = (user: User, dbUser:any):any => {
     if (user.getId() != dbUser._id.toString()){
@@ -40,8 +40,8 @@ class UserMongoAdapter implements UserPersistenceAdapter{
         return await this.recoverUser(promise);
     }
 
-    async searchUserByParams(params:any):Promise<User[]>{
-        return MongoSearcher.consult(UserSchema, params).then(async (users)=>{
+    async searchUserByParams(params:MongoQuery):Promise<User[]>{
+        return MongoSearcher.consult(UserSchema, params.getQuery()).then(async (users)=>{
             let usersFound:User[] = [];
             let promises:Promise<any>[] = [];
             users.forEach(async (userMongo) => {

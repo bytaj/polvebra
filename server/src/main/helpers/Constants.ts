@@ -14,4 +14,4 @@ export const RETAIN_AMOUNT: number = 2;
 export const NO_INTERVAL: number = -1;
 export const INTERVAL_DIARY: number = 1;
 export const INTERVAL_WEEK: number = 2;
-export const INTERVAL_MONTH: number = 2;
+export const INTERVAL_MONTH: number = 3;

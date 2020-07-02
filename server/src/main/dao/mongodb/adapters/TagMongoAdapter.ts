@@ -3,15 +3,18 @@ import Tag from "../../../core/model/Tag";
 import TagSchema from '../models/TagSchema'
 import * as MongoSearcher from '../MongoSearcher';
 import User from "../../../core/model/User";
-import { Document } from "mongoose";
+import * as QueryInterface from "../../QueryInterface";
+import { createNewQuery } from "../../../controllers/PersistenceController";
 
 class TagMongoAdapter implements TagPersistenceAdapter{
-    createTag(tag:Tag, user?:User):Promise<Tag>{
+    async createTag(tag:Tag, user?:User):Promise<Tag>{
         let tagDocument:any = new TagSchema(tag);
         if(user){
             tagDocument.user = user.getId();
         }else{
-            
+            let query:QueryInterface.QueryInterface = createNewQuery(QueryInterface.TAG_DB_NAME);
+            let id = await this.searchTagByParams(query.addParamToQuery("_id", tag.getParentTag()?.getId()).selectReturnParams(["user"]));
+            tagDocument.user = id;
         }
         return MongoSearcher.publish(tagDocument);
     }
@@ -19,8 +22,8 @@ class TagMongoAdapter implements TagPersistenceAdapter{
         let promise:any = await MongoSearcher.consultByID(TagSchema, id);
         return Tag.createTagFromJSON(promise)
     }
-    async searchTagByParams(params:any):Promise<Tag[]>{
-        return MongoSearcher.consult(TagSchema, params).then((tags)=>{
+    async searchTagByParams(params:QueryInterface.QueryInterface):Promise<Tag[]>{
+        return MongoSearcher.consult(TagSchema, params.getQuery()).then((tags)=>{
             let tagsFound:Tag[] = [];
             tags.forEach((tagMongo) => {
                 tagsFound.push(Tag.createTagFromJSON(tagMongo));
@@ -36,7 +39,9 @@ class TagMongoAdapter implements TagPersistenceAdapter{
     private async checkSonsTags(tag: Tag):Promise<Tag[]>{
         let promises: Promise<any>[] = [];
         let tags:Tag[] = [];
-        await this.searchTagByParams({"parentTag":tag.getId()}).then(async (tagsdb) =>{
+        let query:QueryInterface.QueryInterface = createNewQuery(QueryInterface.TAG_DB_NAME);
+        query.addParamToQuery("_id", tag.getParentTag()?.getId());
+        await this.searchTagByParams(query).then(async (tagsdb) =>{
             if (tagsdb.length != 0){
                 tagsdb.forEach((tagFound) => {
                     tagFound.setParentTag(tag);
@@ -56,7 +61,9 @@ class TagMongoAdapter implements TagPersistenceAdapter{
     async searchAllTagsFromAUser(userID: any):Promise<Tag[]>{
         let tags:Tag[] = [];
         let promises: Promise<any>[] = [];
-        await this.searchTagByParams({"user":userID, "parentTag":null}).then(async (tagsdb) =>{
+        let query:QueryInterface.QueryInterface = createNewQuery(QueryInterface.TAG_DB_NAME);
+        query.addParamToQuery("user", userID).addParamToQuery("parentTag", null);
+        await this.searchTagByParams(query).then(async (tagsdb) =>{
             tagsdb.forEach(async (tagdb) => {
                 tags.push(tagdb);
                 promises.push(this.checkSonsTags(tagdb).then((tagsFounds) => {

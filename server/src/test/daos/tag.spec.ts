@@ -4,111 +4,40 @@ import User from '../../main/core/model/User';
 import '../../main/dao/mongodb/database';
 import AbstractFactory from '../../main/core/factory/AbstractFactory';
 import { getPersistenceController } from '../../main/controllers/PersistenceController';
+import Tag from '../../main/core/model/Tag';
 
 
 
 
 
-/*describe('CRUD User',  () => {
-    const usernameTest1: string = "test1"; 
-    const usernameTest2: string = "test2";
-    const nameTest: string = "testname"; 
-    const emailTest1: string = "test1@test.com";
-    const emailTest2: string = "test2@test.com";
-    const passwordTest: string = "test";
-    const modifiedPasswordTest: string = "newPassword";
+describe('CRUD User',  () => {
+    const tagName1:string = "tagName1";
+    const tagName2:string = "tagName2";
+    const tagName3:string = "tagName3";
+    const tagDescrition1:string = "tagDescrition1";
+    const tagDescrition3:string = "tagDescrition3";
+    const tagCreated1 = new Tag(tagName1, tagDescrition1);
+    const tagCreated2 = new Tag(tagName2);
+    const tagCreated3 = new Tag(tagName3, tagDescrition3);
+    
 
-    let userCreated1:User = AbstractFactory.getUserFactory().createUserBuilder(usernameTest1, nameTest, emailTest1, passwordTest).build();
-    let userCreated12:User = AbstractFactory.getUserFactory().createUserBuilder(usernameTest2, nameTest, emailTest1, passwordTest).build();
-    let userCreated13:User = AbstractFactory.getUserFactory().createUserBuilder(usernameTest1, nameTest, emailTest2, passwordTest).build();
-    let userCreated2:User = AbstractFactory.getUserFactory().createUserBuilder(usernameTest2, nameTest, emailTest2, passwordTest).build();
-    let userSaved1:any;
-    let userSaved2:any;
-    let idUser1:any;
-    let idUser2:any;
+    let tagSaved1:Tag
 
     it('User created in DB', async function () {
         try{
-            userSaved1 = await getPersistenceController().getUserAdapter().createUser(userCreated1);
-            idUser1 = userSaved1.getId();
-            assert.ok(userSaved1);
+            let tagSaved = await getPersistenceController().getTagAdapter().createTag(tagCreated1);
+            let idUser1 = tagSaved.getId();
+            assert.ok(idUser1);
+            assert.equal(tagCreated1, tagSaved);
         }catch(err){
             console.log(err);
             assert.fail();   
-        }
-    });
-
-    it('Cant created users with same username or email', async function(){
-        try{
-            userSaved1 = await getPersistenceController().getUserAdapter().createUser(userCreated12);
-            assert.fail();
-        }catch(err){
-            assert.ok(true);
-        }
-        try{
-            userSaved1 = await getPersistenceController().getUserAdapter().createUser(userCreated13);
-            assert.fail();
-        }catch(err){
-            assert.ok(true);
-        }
-    });
-
-    it('Find one user', async function () {
-        try{
-            userSaved2 = await getPersistenceController().getUserAdapter().createUser(userCreated2);
-            idUser2 = userSaved2.getId();
-            let usersFound = await getPersistenceController().getUserAdapter().searchUserByParams({username:usernameTest1});
-           
-            let userFound:User = usersFound[0];
-
-            expect(userFound.getName()).to.be.equals(nameTest);
-            expect(userFound.getUsername()).to.be.equals(usernameTest1);
-            expect(userFound.getEmail()).to.be.equals(emailTest1);
-            expect(userFound.getPassword()).to.be.equals(passwordTest);
-                
-            usersFound = await getPersistenceController().getUserAdapter().searchUserByParams({username:usernameTest2});
-            userFound = usersFound[0];
-
-            expect(userFound.getName()).to.be.equals(nameTest);
-            expect(userFound.getUsername()).to.be.equals(usernameTest2);
-            expect(userFound.getEmail()).to.be.equals(emailTest2);
-            expect(userFound.getPassword()).to.be.equals(passwordTest);
-
-            
-            
-        }catch(err){
-            console.log(err);
-            assert.fail();   
-        }
-    });
-
-    it('Modify an user', async function () {
-        try{
-            userSaved2.setPassword(modifiedPasswordTest);
-            let userModified = await getPersistenceController().getUserAdapter().modifyUser(userSaved2);
-            expect(userModified.getPassword()).to.be.equals(modifiedPasswordTest);
-            
-        }catch(err){
-            console.log(err);
-            assert.fail();   
-        }
-    });
-
-    it('Changing username an user', async function () {
-        try{
-            userSaved2.setUsername('newUsername');
-            let userModified = await getPersistenceController().getUserAdapter().modifyUser(userSaved2);
-            assert.fail();
-            
-        }catch(err){
-            assert.ok(true); 
         }
     });
 
     after(()=>{
-        getPersistenceController().getUserAdapter().removeUser(idUser2);
-        getPersistenceController().getUserAdapter().removeUser(idUser1);
+        getPersistenceController().getUserAdapter().removeUser(tagCreated1.getId());
         
     })
     
-});*/
+});

@@ -93,8 +93,10 @@ export default class User {
         this.periodicTransactions = periodicTransactions;
     }
 
-    createTag(tag:Tag){
-        
+    createTag(name:string, description?:string){
+        let tag:Tag = new Tag(name, description);
+        this.tags.push(tag);
+        getPersistenceController().getTagAdapter().createTag(tag, this);
     }
 
 

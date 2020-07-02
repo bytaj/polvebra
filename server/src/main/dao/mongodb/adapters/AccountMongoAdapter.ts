@@ -10,9 +10,11 @@ class AccountMongoAdapter implements AccountPersistenceAdapter{
         accountDocument.user = user.getId();
         return MongoSearcher.publish(accountDocument);
     }
+
     searchAccountByID(id:any):Promise<Account> {
         return MongoSearcher.consultByID(AccountSchema, id);
     }
+    
     searchAccountByParams(params:any):Promise<Account[]>{
         return MongoSearcher.consult(AccountSchema, params);
     }
