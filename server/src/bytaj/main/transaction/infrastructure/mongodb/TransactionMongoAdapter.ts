@@ -1,0 +1,44 @@
+import TransactionPersistenceAdapter from "../../domain/TransactionPersistenceAdapter";
+import Deposit from "../../domain/Deposit"
+import * as MongoSearcher from '../../../shared/infrastructure/mongodb/MongoSearcher';
+import TransactionSchema from "./TransactionSchema";
+import Outlay from "../../domain/Outlay";
+import AbstractTransaction from "../../domain/AbstractTransaction";
+import Account from "../../../account/domain/Account";
+import { Document } from "mongoose";
+import { DEPOSIT_CODE, OUTLAY_CODE } from "../../../shared/infrastructure/mongodb/keys";
+
+class TransactionMongoAdapter implements TransactionPersistenceAdapter{
+    private createDocumentFromTransaction(transaction:AbstractTransaction, account:Account, type:number):Document{
+        let transactionDocument:any = new TransactionSchema(transaction);
+        transactionDocument.account = account.id;
+        return transactionDocument;
+    }
+    createDeposit(deposit:Deposit, account:Account):Promise<Deposit>{
+        
+        return MongoSearcher.publish(this.createDocumentFromTransaction(deposit, account, DEPOSIT_CODE));
+    }
+
+    createOutlay(outlay:Outlay, account:Account):Promise<Outlay>{
+        return MongoSearcher.publish(this.createDocumentFromTransaction(outlay, account, OUTLAY_CODE));
+    }
+
+    searchTransactionByID(id:any):Promise<AbstractTransaction> {
+        return MongoSearcher.consultByID(TransactionSchema, id);
+
+    }
+    searchTransactionByParams(params:any):Promise<AbstractTransaction[]>{
+        return MongoSearcher.consult(TransactionSchema, params);
+    }
+
+    modifyTransaction(transaction:AbstractTransaction):Promise<AbstractTransaction>{
+        return MongoSearcher.modify(TransactionSchema, transaction, ()=>{});
+    }
+
+    removeTransaction(id:any):void{
+        MongoSearcher.remove(TransactionSchema, id);
+    }
+}
+
+const transactionMongoAdapter: TransactionMongoAdapter = new TransactionMongoAdapter();
+export default transactionMongoAdapter;
