@@ -1,39 +1,39 @@
 import * as Constants from '../../shared/application/Constants';
 import Tag from '../../tag/domain/Tag';
 import * as DateFunctions from '../../shared/application/GeneralFunctions';
-import TransactionContainer from './TransactionContainer'
+import TransactionContainer from './TransactionContainer';
 
-export default abstract class AbstractTransaction extends TransactionContainer{
-    private _subtransaction : Array<AbstractTransaction>;
-    private _paid :boolean;
+export default abstract class AbstractTransaction extends TransactionContainer {
+    private _subtransaction: Array<AbstractTransaction>;
+    private _paid: boolean;
 
-    public constructor(name: string, amount: number){
+    public constructor(name: string, amount: number) {
         super(name, amount);
         this._subtransaction = [];
         this._paid = true;
     }
 
     private calculeAllAmount: (acc: number, type: number, tr: AbstractTransaction) => number =
-    function(acc: number, type: number, tr: AbstractTransaction): number {
-        if (tr._paid){
-            acc += Math.abs(tr.calculeAmount(type));
-        }
-        return acc;
-    };
-    
+        function (acc: number, type: number, tr: AbstractTransaction): number {
+            if (tr._paid) {
+                acc += Math.abs(tr.calculeAmount(type));
+            }
+            return acc;
+        };
+
     private calculeNetAmount: (acc: number, type: number, tr: AbstractTransaction) => number =
-    function(acc: number, type: number, tr: AbstractTransaction): number {
-        acc += Math.abs(tr.calculeAmount(type));
-        return acc;
-    };
+        function (acc: number, type: number, tr: AbstractTransaction): number {
+            acc += Math.abs(tr.calculeAmount(type));
+            return acc;
+        };
 
     private calculeRetainAmount: (acc: number, type: number, tr: AbstractTransaction) => number =
-    function(acc: number, type: number, tr: AbstractTransaction): number {
-        if (!tr._paid){
-            acc += Math.abs(tr.calculeAmount(type));
-        }
-        return acc;
-    };
+        function (acc: number, type: number, tr: AbstractTransaction): number {
+            if (!tr._paid) {
+                acc += Math.abs(tr.calculeAmount(type));
+            }
+            return acc;
+        };
 
 
     get subtransaction(): Array<AbstractTransaction> {
@@ -52,41 +52,42 @@ export default abstract class AbstractTransaction extends TransactionContainer{
         this._paid = value;
     }
 
-    public getTotalAmount(beginDate?: Date, endDate?: Date): number{
+    public getTotalAmount(beginDate?: Date, endDate?: Date): number {
         return this.calculateInTime(Constants.ALL_AMOUNT, beginDate, endDate);
     }
 
-    public getNetAmount(beginDate?: Date, endDate?: Date): number{
+    public getNetAmount(beginDate?: Date, endDate?: Date): number {
         return this.calculateInTime(Constants.NET_AMOUNT, beginDate, endDate);
     }
 
-    public getRetainAmount(beginDate?: Date, endDate?: Date): number{
+    public getRetainAmount(beginDate?: Date, endDate?: Date): number {
         return this.calculateInTime(Constants.RETAIN_AMOUNT, beginDate, endDate);
     }
 
-    public isInDate(beginDate: Date, endDate: Date):boolean{
+    public isInDate(beginDate: Date, endDate: Date): boolean {
         return DateFunctions.isInDate(beginDate, endDate, this.date);
     }
 
-    private calculateInTime(type: number, beginDate?: Date, endDate?: Date): number{
-        if (beginDate){
-            if (!endDate){
+    private calculateInTime(type: number, beginDate?: Date, endDate?: Date): number {
+        if (beginDate) {
+            if (!endDate) {
                 endDate = new Date();
             }
-            if (this.isInDate(beginDate, endDate)){
+            if (this.isInDate(beginDate, endDate)) {
                 return this.calculeAmount(type);
             }
             return 0;
-        }else{
+        } else {
             return this.calculeAmount(type);
         }
     }
 
-    private calculeAmount(type: number) : number{
-        if (this._subtransaction.length>0){
+    private calculeAmount(type: number): number {
+        if (this._subtransaction.length >
+            0) {
             let subtransactionAmount = 0;
             let wayToCalcule: (acc: number, type: number, tr: AbstractTransaction) => number;
-            switch(type){
+            switch (type) {
                 case Constants.ALL_AMOUNT:
                     wayToCalcule = this.calculeAllAmount;
                     break;
@@ -98,16 +99,16 @@ export default abstract class AbstractTransaction extends TransactionContainer{
             }
             this._subtransaction.forEach(tr => {
                 subtransactionAmount = wayToCalcule(subtransactionAmount, type, tr);
-            })
-            return this.amount > Math.abs(subtransactionAmount) ? this.amount : subtransactionAmount;
-        }else{
+            });
+            return this.amount >
+            Math.abs(subtransactionAmount) ? this.amount : subtransactionAmount;
+        } else {
             return this.amount;
         }
     }
 
-    
 
-    public addSubTransaction(subtransaction : AbstractTransaction){
+    public addSubTransaction(subtransaction: AbstractTransaction) {
         this._subtransaction.push(subtransaction);
     }
 }

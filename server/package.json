@@ -2,8 +2,8 @@
   "name": "polvebra",
   "version": "1.0.0",
   "description": "Backend",
-  "main": "src/main/index.ts",
-  "mainCompiled": "./build/src/main/index.js",
+  "main": "src/bytaj/main/index.ts",
+  "mainCompiled": "./build/src/bytaj/main/index.js",
   "scripts": {
     "ts-node": "ts-node main",
     "clean-windows": "rmdir /Q /S build",

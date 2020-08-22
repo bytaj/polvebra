@@ -7,128 +7,129 @@ import {getPersistenceController} from '../../shared/application/PersistenceCont
 import loggerFactory from '../../shared/application/LoggerFactory';
 
 export default class User {
-    private _id?: any;
-    private _name: string;
-    private _username: string;
-    private _email: string;
-    private _password: string;
+    private id?: any;
+    private name : string;
+    private username : string;
+    private email :string;
+    private password : string;
 
-    private _periodicTransactions: Array<PeriodicTransaction>;
-    private _accounts: Array<Account>;
-    private _tags: Array<Tag>;
+    private periodicTransactions: Array<PeriodicTransaction>;
+    private accounts : Array<Account>;
+    private tags : Array<Tag>;
 
-    constructor(username: string, name: string, email: string, password: string) {
-        this._username = username;
-        this._name = name;
-        this._email = email;
-        this._password = password;
-        this._periodicTransactions = [];
-        this._accounts = [];
-        this._tags = [];
+    constructor(username: string, name:string, email:string, password:string) {
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.periodicTransactions = [];
+        this.accounts = [];
+        this.tags = [];
     }
 
-
-    get id(): any {
-        return this._id;
+    public getId():any{
+        return this.id;
     }
 
-    set id(value: any) {
-        this._id = value;
+    public setId(id:any){
+        if (!this.id){
+            this.id = id;
+        }
     }
 
-    get name(): string {
-        return this._name;
+    public getName():String {
+        return this.name;
     }
 
-    set name(value: string) {
-        this._name = value;
+    public setName(name : string) : void{
+        this.name = name;
     }
 
-    get username(): string {
-        return this._username;
+    public getUsername():String {
+        return this.username;
     }
 
-    set username(value: string) {
-        this._username = value;
+    public setUsername(username : string) : void{
+        this.username = username;
     }
 
-    get email(): string {
-        return this._email;
+    public getEmail():String {
+        return this.email;
     }
 
-    set email(value: string) {
-        this._email = value;
+    public setEmail(email : string) : void{
+        this.email = email;
     }
 
-    get password(): string {
-        return this._password;
+    public getPassword():String {
+        return this.password;
     }
 
-    set password(value: string) {
-        this._password = value;
+    public setPassword(password : string) : void{
+        this.password = password;
     }
 
-    get periodicTransactions(): Array<PeriodicTransaction> {
-        return this._periodicTransactions;
+    public getAccounts(): Array<Account>{
+        return this.accounts;
     }
 
-    set periodicTransactions(value: Array<PeriodicTransaction>) {
-        this._periodicTransactions = value;
+    public setAccounts(accounts: Array<Account>): void{
+        this.accounts = accounts;
     }
 
-    get accounts(): Array<Account> {
-        return this._accounts;
+    public getTags(): Array<Tag>{
+        return this.tags;
     }
 
-    set accounts(value: Array<Account>) {
-        this._accounts = value;
+    public setTags(tags: Array<Tag>): void{
+        this.tags = tags;
     }
 
-    get tags(): Array<Tag> {
-        return this._tags;
+    public getPeriodicTransactions(): Array<PeriodicTransaction>{
+        return this.periodicTransactions;
     }
 
-    set tags(value: Array<Tag>) {
-        this._tags = value;
+    public setPeriodicTransactions(periodicTransactions: Array<PeriodicTransaction>): void{
+        this.periodicTransactions = periodicTransactions;
     }
 
-    createTag(name: string, description?: string) {
-        let tag: Tag = new Tag(name, description);
-        this._tags.push(tag);
+    createTag(name:string, description?:string){
+        let tag:Tag = new Tag(name, description);
+        this.tags.push(tag);
         getPersistenceController().getTagAdapter().createTag(tag, this);
     }
 
 
-    public createAccount(name: string): void {
-        this._accounts.push(AbstractFactory.getAccountFactory().createAccount(name));
+    public createAccount(name:string):void {
+        this.accounts.push(AbstractFactory.getAccountFactory().createAccount(name));
     }
 
-    public addTranssition(transaction: AbstractTransaction, account: Account) {
-        if (this._accounts.includes(account)) {
+    public addTranssition(transaction:AbstractTransaction, account:Account){
+        if (this.accounts.includes(account)){
             account.addTransaction(transaction);
         }
     }
 
 
-    public getAllBalance(): number {
+    public getAllBalance() : number{
         let balance = 0;
-        this._accounts.forEach(ac => {
-            balance += ac.getBalance();
+        this.accounts.forEach(ac => {
+            balance+= ac.getBalance();
         });
         return balance;
     }
 
-    public getNetBalance(): number {
+    public getNetBalance():number {
         let balance = 0;
-        this._accounts.forEach(ac => {
-            balance += ac.getNetBalance();
+        this.accounts.forEach(ac => {
+            balance+= ac.getNetBalance();
         });
         return balance;
     }
 
-    public static createUserFromJSON(json: any): User {
-        let user: User = new User(json._username, json._name, json._email, json._password);
-        user.id(json._id.valueOf());
+    public static createUserFromJSON(json:any):User{
+        let user:User = new User(json.username, json.name, json.email, json.password);
+        user.setId(json._id.valueOf());
         return user;
     }
 }

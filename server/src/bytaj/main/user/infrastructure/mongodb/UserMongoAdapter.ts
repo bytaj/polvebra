@@ -9,29 +9,32 @@ import * as QueryInterface from "../../../shared/domain/QueryInterface";
 import MongoQuery from "../../../shared/infrastructure/mongodb/MongoQuery";
 
 const modifyUserFunction = (user: User, dbUser: any): any => {
-    if (user.id != dbUser._id.toString()) {
+    if (user.getId() !=
+        dbUser._id.toString()) {
         throw new Error('id can be changed');
     }
 
-    if (user.username != dbUser.username) {
+    if (user.getUsername() !=
+        dbUser.username) {
         throw new Error('username can be changed');
     }
-}
+};
 
 class UserMongoAdapter implements UserPersistenceAdapter {
 
     private async recoverUser(doc: any): Promise<User> {
+        var tags: Tag[];
         let userRecovered: User;
         userRecovered = await User.createUserFromJSON(doc);
-        let tags: Tag[] = await getPersistenceController()
+        tags = await getPersistenceController()
             .getTagAdapter()
-            .searchAllTagsFromAUser(userRecovered.id);
-        userRecovered.tags = tags;
+            .searchAllTagsFromAUser(userRecovered.getId());
+        userRecovered.setTags(tags);
         return userRecovered;
     }
 
     async createUser(user: User): Promise<User> {
-        var elementToPublish = new UserSchema(user);
+        const elementToPublish = new UserSchema(user);
         return MongoSearcher.publish(elementToPublish).then((userCreated) => {
             return User.createUserFromJSON(userCreated);
         });

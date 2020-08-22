@@ -1,13 +1,13 @@
 import PeriodicTransactionPersistenceAdapter from "../../domain/PeriodicTransactionPersistenceAdapter";
 import PeriodicTransaction from "../../domain/PeriodicTransaction";
 import PeriodicTransactionSchema from './PeriodicTransactionSchema'
-import * as MongoSearcher from '../../../shared/infrastructure/mongodb/MongoSearcher';
+import * as MongoSearcher from '../../../../../../../../armonia/server/src/Contexts/Shared/infrastructure/persistence/mongo/MongoSearcher';
 import User from "../../../user/domain/User";
 
 class PeriodicTransactionMongoAdapter implements PeriodicTransactionPersistenceAdapter{
     createPeriodicTransaction(periodicTransaction:PeriodicTransaction, user:User):Promise<PeriodicTransaction>{
         let periodicTransactionDocument:any = new PeriodicTransactionSchema(periodicTransaction);
-        periodicTransactionDocument.user = user.id;
+        periodicTransactionDocument.user = user.getId();
         return MongoSearcher.publish(periodicTransactionDocument);
     }
     searchPeriodicTransactionByID(id:any):Promise<PeriodicTransaction> {

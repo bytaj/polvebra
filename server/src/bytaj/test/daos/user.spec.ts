@@ -9,7 +9,7 @@ import {getPersistenceController} from '../../main/shared/application/Persistenc
 describe('CRUD User', () => {
     const usernameTest1: string = "test1";
     const usernameTest2: string = "test2";
-    const nameTest: string = "testname";
+    const nameTest: string = "testName";
     const emailTest1: string = "test1@test.com";
     const emailTest2: string = "test2@test.com";
     const passwordTest: string = "test";
@@ -27,8 +27,8 @@ describe('CRUD User', () => {
     let userCreated2: User = AbstractFactory.getUserFactory()
         .createUserBuilder(usernameTest2, nameTest, emailTest2, passwordTest)
         .build();
-    let userSaved1: any;
-    let userSaved2: any;
+    let userSaved1: User;
+    let userSaved2: User;
     let idUser1: any;
     let idUser2: any;
 
@@ -59,29 +59,31 @@ describe('CRUD User', () => {
     });
 
     it('Find one user', async function () {
+        let userFound: User;
+        let usersFound: User[];
         try {
             userSaved2 = await getPersistenceController().getUserAdapter().createUser(userCreated2);
             idUser2 = userSaved2.getId();
-            let usersFound = await getPersistenceController()
+            usersFound = await getPersistenceController()
                 .getUserAdapter()
                 .searchUserByParams({username: usernameTest1});
 
-            let userFound: User = usersFound[0];
+            userFound = usersFound[0];
 
-            expect(userFound.name).to.be.equals(nameTest);
-            expect(userFound.username).to.be.equals(usernameTest1);
-            expect(userFound.email).to.be.equals(emailTest1);
-            expect(userFound.password).to.be.equals(passwordTest);
+            expect(userFound.getName()).to.be.equals(nameTest);
+            expect(userFound.getUsername()).to.be.equals(usernameTest1);
+            expect(userFound.getEmail()).to.be.equals(emailTest1);
+            expect(userFound.getPassword()).to.be.equals(passwordTest);
 
             usersFound = await getPersistenceController()
                 .getUserAdapter()
                 .searchUserByParams({username: usernameTest2});
             userFound = usersFound[0];
 
-            expect(userFound.name).to.be.equals(nameTest);
-            expect(userFound.username).to.be.equals(usernameTest2);
-            expect(userFound.email).to.be.equals(emailTest2);
-            expect(userFound.password).to.be.equals(passwordTest);
+            expect(userFound.getUsername()).to.be.equals(nameTest);
+            expect(userFound.getUsername()).to.be.equals(usernameTest2);
+            expect(userFound.getEmail()).to.be.equals(emailTest2);
+            expect(userFound.getPassword()).to.be.equals(passwordTest);
 
 
         } catch (err) {
@@ -91,10 +93,11 @@ describe('CRUD User', () => {
     });
 
     it('Modify an user', async function () {
+        let userModified: User;
         try {
-            userSaved2.setPassword(modifiedPasswordTest);
-            let userModified = await getPersistenceController().getUserAdapter().modifyUser(userSaved2);
-            expect(userModified.password).to.be.equals(modifiedPasswordTest);
+            userCreated2.setPassword(modifiedPasswordTest);
+            userModified = await getPersistenceController().getUserAdapter().modifyUser(userCreated2);
+            expect(userModified.getPassword()).to.be.equals(modifiedPasswordTest);
 
         } catch (err) {
             console.log(err);
@@ -105,7 +108,7 @@ describe('CRUD User', () => {
     it('Changing username an user', async function () {
         try {
             userSaved2.setUsername('newUsername');
-            let userModified = await getPersistenceController().getUserAdapter().modifyUser(userSaved2);
+            await getPersistenceController().getUserAdapter().modifyUser(userSaved2);
             assert.fail();
 
         } catch (err) {

@@ -1,60 +1,62 @@
 import { getPersistenceController } from "../../shared/application/PersistenceController";
 
 export default class Tag{
-    private _id?: any;
-    private _name : string;
-    private _description?: string;
-    private _parentTag?: Tag;
+    private id?: any;
+    private name : string;
+    private description?: string;
+    private parentTag?: Tag;
 
     constructor(name: string, description?:string){
-        this._name = name;
+        this.name = name;
         if(description){
-            this._description = description;
+            this.description = description;
         }
     }
 
-    get id(): any {
-        return this._id;
+    public getId():any{
+        return this.id;
     }
 
-    set id(value: any) {
-        this._id = value;
+    public setId(id:any){
+        if (!this.id){
+            this.id = id;
+        }
     }
 
-    get name(): string {
-        return this._name;
+    public getName(): string{
+        return this.name;
     }
 
-    set name(value: string) {
-        this._name = value;
+    public setName(name: string): void{
+        this.name = name;
     }
 
-    get description(): string {
-        return <string>this._description;
+    public getDescription(): string| undefined{
+        return this.description;
     }
 
-    set description(value: string) {
-        this._description = value;
+    public setDescription(description: string): void{
+        this.description = description;
     }
 
-    get parentTag(): Tag {
-        return <Tag>this._parentTag;
+    public getParentTag(): Tag | undefined{
+        return this.parentTag;
     }
 
-    set parentTag(value: Tag) {
-        this._parentTag = value;
+    public setParentTag(parentTag: Tag): void{
+        this.parentTag = parentTag;
     }
 
-    public async createSonTag(name:string, description?:string):Promise<Tag>{
+    public createSonTag(name:string, description?:string):Tag{
         let tagSon:Tag = new Tag(name, description);
-        tagSon.parentTag = this;
-        await getPersistenceController().getTagAdapter().createTag(tagSon);
+        tagSon.setParentTag(this);
+        getPersistenceController().getTagAdapter().createTag(tagSon);
         return tagSon;
     }
 
     public static createTagFromJSON(json:any):Tag{
-        let tag:Tag = new Tag(json._name, json._description);
-        tag.id = json._id.valueOf();
+        let tag:Tag = new Tag(json.name, json.description);
+        tag.setId(json._id.valueOf());
         return tag;
     }
 }

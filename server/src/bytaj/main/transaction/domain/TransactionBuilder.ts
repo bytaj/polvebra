@@ -16,17 +16,17 @@ export default class TransactionBuilder{
     }
 
     public setTag(tag : Tag): TransactionBuilder {
-        this.currentTransaction.setTag(tag);
+        this.currentTransaction.tag = tag;
         return this;
     }
 
     public setPaid(paid: boolean): TransactionBuilder {
-        this.currentTransaction.setPaid(paid);
+        this.currentTransaction.paid = paid;
         return this;
     }
 
     public setDate(date:Date): TransactionBuilder{
-        this.currentTransaction.setDate(date);
+        this.currentTransaction.date = date;
         return this;
     }
 

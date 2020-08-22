@@ -10,34 +10,35 @@ import Tag from '../../main/tag/domain/Tag';
 
 
 
-describe('CRUD User',  () => {
+describe('CRUD Tag',  () => {
     const tagName1:string = "tagName1";
     const tagName2:string = "tagName2";
     const tagName3:string = "tagName3";
-    const tagDescrition1:string = "tagDescrition1";
-    const tagDescrition3:string = "tagDescrition3";
+    const tagDescrition1:string = 'tagDescrition1';
+    const tagDescrition3:string = 'tagDescrition3';
     const tagCreated1 = new Tag(tagName1, tagDescrition1);
     const tagCreated2 = new Tag(tagName2);
     const tagCreated3 = new Tag(tagName3, tagDescrition3);
-    
 
-    let tagSaved1:Tag
 
-    it('User created in DB', async function () {
+    let tagSaved1:Tag;
+
+    it('Tag created in DB', async function () {
+        var idUser1: any;
         try{
             let tagSaved = await getPersistenceController().getTagAdapter().createTag(tagCreated1);
-            let idUser1 = tagSaved.getId();
+            idUser1 = tagSaved.getId();
             assert.ok(idUser1);
             assert.equal(tagCreated1, tagSaved);
         }catch(err){
             console.log(err);
-            assert.fail();   
+            assert.fail();
         }
     });
 
     after(()=>{
         getPersistenceController().getUserAdapter().removeUser(tagCreated1.getId());
-        
+
     })
-    
+
 });

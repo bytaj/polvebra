@@ -1,11 +1,11 @@
 import AbstractTransaction from '../../transaction/domain/AbstractTransaction';
 
-export default class Account{
+export default class Account {
     private _id?: any;
     private _name: string;
     private _transactions: Array<AbstractTransaction>;
 
-    public constructor(name : string){
+    public constructor(name: string) {
         this._name = name;
         this._transactions = [];
     }
@@ -34,22 +34,22 @@ export default class Account{
         this._transactions = value;
     }
 
-    public addTransaction(transactions : AbstractTransaction) : void{
+    public addTransaction(transactions: AbstractTransaction): void {
         this._transactions.push(transactions);
     }
 
-    public getBalance() : number{
+    public getBalance(): number {
         let balance = 0;
         this._transactions.forEach(tr => {
-            balance+= tr.getTotalAmount();
+            balance += tr.getTotalAmount();
         });
         return balance;
     }
 
-    public getNetBalance() : number{
+    public getNetBalance(): number {
         let balance = 0;
         this._transactions.forEach(tr => {
-            balance+= tr.getNetAmount();
+            balance += tr.getNetAmount();
         });
         return balance;
     }

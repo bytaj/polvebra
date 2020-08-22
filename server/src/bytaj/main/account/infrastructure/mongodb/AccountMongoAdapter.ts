@@ -7,14 +7,14 @@ import User from "../../../user/domain/User";
 class AccountMongoAdapter implements AccountPersistenceAdapter{
     createAccount(account:Account, user:User):Promise<Account>{
         let accountDocument:any = new AccountSchema(account);
-        accountDocument.user = user.id;
+        accountDocument.user = user.getId();
         return MongoSearcher.publish(accountDocument);
     }
 
     searchAccountByID(id:any):Promise<Account> {
         return MongoSearcher.consultByID(AccountSchema, id);
     }
-    
+
     searchAccountByParams(params:any):Promise<Account[]>{
         return MongoSearcher.consult(AccountSchema, params);
     }
