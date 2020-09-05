@@ -1,0 +1,24 @@
+services:
+  Polvebra.shared.ConnectionManager:
+    class: ../../../../../Contexts/Shared/infrastructure/persistence/mongo/MongoConnectionManager
+    arguments: []
+
+  Polvebra.shared.Logger:
+    class: ../../../../../Contexts/Shared/infrastructure/WinstonLogger
+    arguments: []
+
+  Polvebra.shared.TokenRepository:
+    class: ../../../../../Contexts/App/Shared/infrastructure/MongoTokenRepository
+    arguments: []
+
+  Polvebra.shared.LoginManager:
+    class: ../../../../../Contexts/App/Shared/infrastructure/JWTLogin
+    arguments: ['@Polvebra.shared.Logger, @Polvebra.shared.TokenRepository']
+
+  Polvebra.shared.SessionManager:
+    class: ../../../../../Contexts/App/Shared/infrastructure/SessionManagerJWT
+    arguments: []
+
+  Polvebra.shared.AuthenticationManager:
+    class: ../../../../../Contexts/Shared/application/AuthenticationManager
+    arguments: ['@Polvebra.shared.SessionManager']

@@ -1,0 +1,13 @@
+services:
+
+  Polvebra.user.UserRepository:
+    class: ../../../../../Contexts/App/User/infrastructure/persistence/MongoUserRepository
+    arguments: []
+
+  Polvebra.user.UserCreator:
+    class: ../../../../../Contexts/App/User/application/UserCreator
+    arguments: ['@Polvebra.user.UserRepository', '@Polvebra.shared.Logger']
+
+  Polvebra.user.UserFinder:
+    class: ../../../../../Contexts/App/User/application/UserFinder
+    arguments: ['@Polvebra.user.UserRepository', '@Polvebra.user.Logger']

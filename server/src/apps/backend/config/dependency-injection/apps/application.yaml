@@ -1,0 +1,13 @@
+services:
+
+  Apps.polvebra.controllers.StatusGetController:
+    class: ../../../../../Contexts/App/Shared/infrastructure/controllers/StatusGetController
+    arguments: []
+
+  Apps.polvebra.controllers.CreateUserPutController:
+    class: ../../../../../Contexts/App/User/infrastructure/controllers/CreateUserPutController
+    arguments: ['@Polvebra.users.UserCreator']
+
+  Apps.polvebra.controllers.UserGetController:
+    class: ../../../../../Contexts/App/User/infrastructure/controllers/UserGetController
+    arguments: ['@Polvebra.users.UserFinder']

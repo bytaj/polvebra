@@ -1,0 +1,11 @@
+imports:
+  - { resource: ./application.yaml }
+
+services:
+  Polvebra.test.ConnectionManager:
+    class: ../../../../../src/Contexts/Shared/infrastructure/persistence/mongo/MongoConnectionManager
+    arguments: []
+
+  App.EnvironmentArranger:
+    class: ../../../../../test/Context/Shared/infrastructure/Mongo/MongoEnvironmentArranger
+    arguments: ['@Polvebra.test.ConnectionManager']
