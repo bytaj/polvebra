@@ -3,4 +3,4 @@ imports:
   - { resource: ./apps/application.yaml }
   - { resource: ./User/application.yaml }
   - { resource: ./Tag/application.yaml }
-  #- { resource: ./Visit/application.yaml }
+  - { resource: ./Account/application.yaml }

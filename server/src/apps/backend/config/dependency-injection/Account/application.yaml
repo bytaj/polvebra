@@ -1,0 +1,5 @@
+services:
+
+  Polvebra.account.AccountRepository:
+    class: ../../../../../Contexts/App/Account/infrastructure/persistence/MongoAccountRepository
+    arguments: []

@@ -1,56 +1,86 @@
-import AbstractTransaction from '../../Transaction/domain/AbstractTransaction';
+import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
+import { Balance } from '../../../Shared/domain/value-object/Balance';
+import { AccountId } from '../../Shared/domain/Account/AcountId';
+import { UserId } from '../../Shared/domain/User/UserId';
+import { AccountName } from './AccountName';
 
-export default class Account {
-    private _id?: any;
-    private _name: string;
-    private _transactions: Array<AbstractTransaction>;
+export default class Account extends AggregateRoot {
+    readonly id: AccountId;
+    readonly userId: UserId;
+    private _name: AccountName;
+    private _balance: Balance;
+    private _netBalance: Balance;
 
-    public constructor(name: string) {
+
+    constructor(accountId: AccountId,
+                userId: UserId,
+                name: AccountName,
+                balance: Balance,
+                netBalance: Balance) {
+        super();
+        this.id = accountId;
+        this.userId = userId;
         this._name = name;
-        this._transactions = [];
+        this._balance = balance;
+        this._netBalance = netBalance;
     }
 
-    get id(): any {
-        return this._id;
-    }
-
-    set id(value: any) {
-        this._id = value;
-    }
-
-    get name(): string {
+    public get name(): AccountName {
         return this._name;
     }
 
-    set name(value: string) {
+    public set name(value: AccountName) {
         this._name = value;
     }
 
-    get transactions(): Array<AbstractTransaction> {
-        return this._transactions;
+    public get balance(): Balance {
+        return this._balance;
     }
 
-    set transactions(value: Array<AbstractTransaction>) {
-        this._transactions = value;
+    public set balance(value: Balance) {
+        this._balance = value;
     }
 
-    public addTransaction(transactions: AbstractTransaction): void {
-        this._transactions.push(transactions);
+    public get netBalance(): Balance {
+        return this._netBalance;
     }
 
-    public getBalance(): number {
-        let balance = 0;
-        this._transactions.forEach(tr => {
-            balance += tr.getTotalAmount();
-        });
-        return balance;
+    public set netBalance(value: Balance) {
+        this._netBalance = value;
     }
 
-    public getNetBalance(): number {
-        let balance = 0;
-        this._transactions.forEach(tr => {
-            balance += tr.getNetAmount();
-        });
-        return balance;
+    static create(accountId: AccountId,
+                  userId: UserId,
+                  name: AccountName,
+                  balance: Balance,
+                  netBalance: Balance): Account {
+        return new Account(accountId, userId, name, balance, netBalance);
     }
+
+    static fromPrimitives(plainData: {
+        id: string;
+        userId: string;
+        name: string;
+        balance: number;
+        netBalance: number;
+    }): Account {
+        return new Account(
+            new AccountId(plainData.id),
+            new UserId(plainData.userId),
+            new AccountName(plainData.name),
+            new Balance(plainData.balance),
+            new Balance(plainData.netBalance)
+        );
+    }
+
+    public toPrimitives() {
+        return {
+            id: this.id.value,
+            userId: this.userId.value,
+            name: this._name.value,
+            balance: this._balance.value,
+            netBalance: this._netBalance.value
+        };
+    }
+
 }
