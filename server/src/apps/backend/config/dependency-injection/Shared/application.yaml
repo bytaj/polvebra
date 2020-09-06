@@ -22,3 +22,15 @@ services:
   Polvebra.shared.AuthenticationManager:
     class: ../../../../../Contexts/Shared/application/AuthenticationManager
     arguments: ['@Polvebra.shared.SessionManager']
+
+  Polvebra.shared.EventBus:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/InMemoryAsyncEventBus
+    arguments: [ ]
+
+  Polvebra.shared.EventBus.DomainEventMapping:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/DomainEventMapping
+    arguments: [ '!tagged domainEventSubscriber' ]
+
+  Polvebra.shared.EventBus.DomainEventJsonDeserializer:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/DomainEventJsonDeserializer
+    arguments: [ '@Polvebra.shared.EventBus.DomainEventMapping' ]
