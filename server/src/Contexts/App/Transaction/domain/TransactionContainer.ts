@@ -1,4 +1,4 @@
-import Tag from '../../tag/domain/Tag';
+import Tag from '../../Tag/domain/Tag';
 
 export default abstract class TransactionContainer {
     private _id?: any;
@@ -6,7 +6,7 @@ export default abstract class TransactionContainer {
     private _tag: Tag;
     private _amount : number;
     private _date : Date;
-    
+
 
     protected constructor(name: string, amount: number, tag?:Tag, date?: Date){
         this._name = name;

@@ -1,0 +1,5 @@
+services:
+
+  Polvebra.tag.TagRepository:
+    class: ../../../../../Contexts/App/Tag/infrastructure/persistence/MongoTagRepository
+    arguments: []

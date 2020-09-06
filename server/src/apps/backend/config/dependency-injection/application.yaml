@@ -2,5 +2,5 @@ imports:
   - { resource: ./Shared/application.yaml }
   - { resource: ./apps/application.yaml }
   - { resource: ./User/application.yaml }
-  #- { resource: ./Employees/application.yaml }
+  - { resource: ./Tag/application.yaml }
   #- { resource: ./Visit/application.yaml }

@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { Nullable } from '../../../../Shared/domain/Nullable';
 import { MapperErrorToHttpCode } from '../../../../Shared/infrastructure/MapperErrorToHttpCode';
 import { SessionManager } from '../../../Shared/domain/SessionManager';
-import { UserId } from '../../../Shared/domain/User/ClientId';
+import { UserId } from '../../../Shared/domain/User/UserId';
 import { Controller } from '../../../Shared/infrastructure/controllers/Controller';
 import { UserFinder } from '../../application/UserFinder';
 import User from '../../domain/User';

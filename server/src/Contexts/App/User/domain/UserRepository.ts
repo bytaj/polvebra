@@ -1,5 +1,5 @@
 import { Nullable } from '../../../Shared/domain/Nullable';
-import { UserId } from '../../Shared/domain/User/ClientId';
+import { UserId } from '../../Shared/domain/User/UserId';
 import User from './User';
 
 

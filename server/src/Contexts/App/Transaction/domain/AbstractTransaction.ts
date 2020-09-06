@@ -1,5 +1,4 @@
 import * as Constants from '../../../../../polvebra/src/bytaj/main/shared/application/Constants';
-import Tag from '../../tag/domain/Tag';
 import * as DateFunctions from '../../../../../polvebra/src/bytaj/main/shared/application/GeneralFunctions';
 import TransactionContainer from './TransactionContainer';
 

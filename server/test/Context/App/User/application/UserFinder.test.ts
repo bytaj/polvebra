@@ -1,7 +1,7 @@
 import { instance } from 'ts-mockito';
 import { when } from 'ts-mockito';
 import { mock } from 'ts-mockito';
-import { UserId } from '../../../../../src/Contexts/App/Shared/domain/User/ClientId';
+import { UserId } from '../../../../../src/Contexts/App/Shared/domain/User/UserId';
 import { UserFinder } from '../../../../../src/Contexts/App/User/application/UserFinder';
 import { UserPetition } from '../../../../../src/Contexts/App/Shared/domain/User/UserPetition';
 import { UserType } from '../../../../../src/Contexts/App/Shared/domain/User/UserType';
@@ -22,6 +22,8 @@ function createUserA(): User {
                                    name: 'Test Name A',
                                    email: 'emailA@test.com',
                                    password: 'passwordA',
+                                   balance: 1,
+                                   netBalance: 0,
                                });
 }
 
@@ -32,6 +34,8 @@ function createUserB(): User {
                                    name: 'Test Name B',
                                    email: 'emailB@test.com',
                                    password: 'passwordB',
+                                   balance: 1,
+                                   netBalance: 0,
                                });
 }
 
@@ -42,6 +46,8 @@ function createUserC(): User {
                                    name: 'Test Name C',
                                    email: 'emailC@test.com',
                                    password: 'passwordC',
+                                   balance: 1,
+                                   netBalance: 0,
                                });
 }
 

@@ -1,12 +1,12 @@
 import { model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-const userSchema = new Schema({
+const tagSchema = new Schema({
                                   _id: {type: String},
-                                  username: {type: String, required: true, unique: true},
+                                  userId: {type: String, required: true},
+                                  parentTagId: {type: String},
                                   name: {type: String, required: true},
-                                  email: {type: String, required: true, unique: true},
-                                  password: {type: String, required: true},
+                                  description: {type: String, required: true},
                                   balance: {type: Number, required: true},
                                   netBalance:{type: Number, required: true}
                               }, {
@@ -14,5 +14,5 @@ const userSchema = new Schema({
                                   timestamps: true,
                               });
 
-userSchema.plugin(uniqueValidator);
-export default model('User', userSchema);
+tagSchema.plugin(uniqueValidator);
+export default model('Tag', tagSchema);

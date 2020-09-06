@@ -1,5 +1,5 @@
 import container from '../../../../../src/apps/backend/config/dependency-injection';
-import { UserId } from '../../../../../src/Contexts/App/Shared/domain/User/ClientId';
+import { UserId } from '../../../../../src/Contexts/App/Shared/domain/User/UserId';
 import User from '../../../../../src/Contexts/App/User/domain/User';
 import UserRepository from '../../../../../src/Contexts/App/User/domain/UserRepository';
 import { DuplicateKeyException } from '../../../../../src/Contexts/Shared/domain/exceptions/DuplicateKeyException';
@@ -31,6 +31,8 @@ function createUserA(): User {
                                    name: 'Test Name A',
                                    email: 'emailA@test.com',
                                    password: 'passwordA',
+                                   balance: 1,
+                                   netBalance: 0,
                                });
 }
 
@@ -41,6 +43,8 @@ function createUserB(): User {
                                    name: 'Test Name B',
                                    email: 'emailB@test.com',
                                    password: 'passwordB',
+                                   balance: 1,
+                                   netBalance: 0,
                                });
 }
 
@@ -51,6 +55,8 @@ function createUserC(): User {
                                    name: 'Test Name C',
                                    email: 'emailC@test.com',
                                    password: 'passwordC',
+                                   balance: 1,
+                                   netBalance: 0,
                                });
 }
 
@@ -70,6 +76,8 @@ describe('Save User', () => {
                                               name: 'Test Name B',
                                               email: 'emailB@test.com',
                                               password: 'passwordB',
+                                              balance: 1,
+                                              netBalance: 0,
                                           });
         return expect(repository.save(userB)).rejects.toThrow(DuplicateKeyException);
     });
@@ -84,6 +92,8 @@ describe('Save User', () => {
                                               name: 'Test Name B',
                                               email: 'emailA@test.com',
                                               password: 'passwordB',
+                                              balance: 1,
+                                              netBalance: 0,
                                           });
         return expect(repository.save(userB)).rejects.toThrow(DuplicateKeyException);
     });
@@ -98,6 +108,8 @@ describe('Save User', () => {
                                               name: 'Test Name B',
                                               email: 'emailB@test.com',
                                               password: 'passwordB',
+                                              balance: 1,
+                                              netBalance: 0,
                                           });
         return expect(repository.save(userB)).rejects.toThrow(DuplicateKeyException);
     });
@@ -115,6 +127,8 @@ describe('Find User', () => {
         expect(userAPreSaved.username).toEqual(clientASaved?.username);
         expect(userAPreSaved.email).toEqual(clientASaved?.email);
         expect(userAPreSaved.password).toEqual(clientASaved?.password);
+        expect(userAPreSaved.balance).toEqual(clientASaved?.balance);
+        expect(userAPreSaved.netBalance).toEqual(clientASaved?.netBalance);
     });
 
     it('Find all the users', async () => {

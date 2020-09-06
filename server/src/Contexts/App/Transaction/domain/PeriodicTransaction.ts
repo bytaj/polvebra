@@ -1,5 +1,5 @@
 import * as Constants from '../../../../../polvebra/src/bytaj/main/shared/application/Constants';
-import Tag from '../../tag/domain/Tag';
+import Tag from '../../Tag/domain/Tag';
 import * as GeneralFunctions from '../../../../../polvebra/src/bytaj/main/shared/application/GeneralFunctions';
 import Account from '../../Account/domain/Account';
 import AbstractTransaction from './AbstractTransaction';

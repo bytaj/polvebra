@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
 import { Balance } from '../../../Shared/domain/value-object/Balance';
-import { UserId } from '../../Shared/domain/User/ClientId';
+import { UserId } from '../../Shared/domain/User/UserId';
 import { Email } from './Email';
 import { Name } from './Name';
 import { Password } from './Password';
@@ -64,7 +64,13 @@ export default class User extends AggregateRoot {
         this._netBalance = value;
     }
 
-    static create(id: UserId, username: Username, name: Name, email: Email, password: Password, balance:Balance, netBalance:Balance): User {
+    static create(id: UserId,
+                  username: Username,
+                  name: Name,
+                  email: Email,
+                  password: Password,
+                  balance: Balance,
+                  netBalance: Balance): User {
         return new User(id, username, name, email, password, balance, netBalance);
     }
 
@@ -74,8 +80,8 @@ export default class User extends AggregateRoot {
         name: string;
         email: string;
         password: string;
-        balance:number;
-        netBalance:number;
+        balance: number;
+        netBalance: number;
     }): User {
         return new User(
             new UserId(plainData.id),

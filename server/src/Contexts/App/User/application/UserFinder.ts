@@ -1,7 +1,7 @@
 import { UnauthorizedAccessException } from '../../../Shared/domain/exceptions/UnauthorizedAccessException';
 import Logger from '../../../Shared/domain/Logger';
 import { Nullable } from '../../../Shared/domain/Nullable';
-import { UserId } from '../../Shared/domain/User/ClientId';
+import { UserId } from '../../Shared/domain/User/UserId';
 import { UserPetition } from '../../Shared/domain/User/UserPetition';
 import { UserType } from '../../Shared/domain/User/UserType';
 import User from '../domain/User';

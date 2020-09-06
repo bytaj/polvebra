@@ -22,7 +22,9 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     }
 
     public findByParams(params:any):Promise<Nullable<any[]>>{
-        return this.classModel().find(params).exec();
+        return this.classModel().find(params).exec().then(documents => {
+            return documents.map(doc => doc.toObject({getters: true}));
+        });
     }
 
     public remove(model: Model<any>, id: any) {

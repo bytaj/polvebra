@@ -2,7 +2,7 @@ import Deposit from './Deposit';
 import Outlay from './Outlay';
 import * as Constants from '../../../../../polvebra/src/bytaj/main/shared/application/Constants';
 import AbstractTransaction from './AbstractTransaction';
-import Tag from '../../tag/domain/Tag';
+import Tag from '../../Tag/domain/Tag';
 
 export default class TransactionBuilder{
     private currentTransaction: AbstractTransaction;

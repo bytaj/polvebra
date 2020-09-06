@@ -1,4 +1,4 @@
-import AbstractTransaction from '../../transaction/domain/AbstractTransaction';
+import AbstractTransaction from '../../Transaction/domain/AbstractTransaction';
 
 export default class Account {
     private _id?: any;
