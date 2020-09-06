@@ -2,7 +2,7 @@ import * as Constants from '../../../../../polvebra/src/bytaj/main/shared/applic
 import Tag from '../../Tag/domain/Tag';
 import * as GeneralFunctions from '../../../../../polvebra/src/bytaj/main/shared/application/GeneralFunctions';
 import Account from '../../Account/domain/Account';
-import AbstractTransaction from './AbstractTransaction';
+import AbstractTransaction from './Transaction';
 import AbstractFactroy from './AbstractFactory';
 import TransactionBuilder from './TransactionBuilder';
 import TransactionContainer from './TransactionContainer';

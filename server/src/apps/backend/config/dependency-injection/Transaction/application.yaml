@@ -1,0 +1,5 @@
+services:
+
+  Polvebra.transaction.TransactionRepository:
+    class: ../../../../../Contexts/App/Transaction/infrastructure/persistence/MongoTransactionRepository
+    arguments: []

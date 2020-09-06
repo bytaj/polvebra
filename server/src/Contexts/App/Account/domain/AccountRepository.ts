@@ -1,5 +1,5 @@
 import { Nullable } from '../../../Shared/domain/Nullable';
-import { AccountId } from '../../Shared/domain/Account/AcountId';
+import { AccountId } from '../../Shared/domain/Account/AccountId';
 import { UserId } from '../../Shared/domain/User/UserId';
 import Account from './Account';
 

@@ -1,5 +1,5 @@
 import container from '../../../../../src/apps/backend/config/dependency-injection';
-import { AccountId } from '../../../../../src/Contexts/App/Shared/domain/Account/AcountId';
+import { AccountId } from '../../../../../src/Contexts/App/Shared/domain/Account/AccountId';
 import { UserId } from '../../../../../src/Contexts/App/Shared/domain/User/UserId';
 import Account from '../../../../../src/Contexts/App/Account/domain/Account';
 import AccountRepository from '../../../../../src/Contexts/App/Account/domain/AccountRepository';

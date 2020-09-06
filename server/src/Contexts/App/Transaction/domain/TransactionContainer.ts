@@ -1,65 +1,70 @@
-import Tag from '../../Tag/domain/Tag';
+import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
+import { Nullable } from '../../../Shared/domain/Nullable';
+import { AccountId } from '../../Shared/domain/Account/AccountId';
+import { TagId } from '../../Shared/domain/Tag/TagId';
+import { TransactionId } from '../../Shared/domain/Transaction/TransactionId';
+import { UserId } from '../../Shared/domain/User/UserId';
+import TransactionAmount from './TransactionAmount';
+import TransactionDate from './TransactionDate';
+import { TransactionName } from './TransactionName';
 
-export default abstract class TransactionContainer {
-    private _id?: any;
-    private _name: string;
-    private _tag: Tag;
-    private _amount : number;
-    private _date : Date;
+export default abstract class TransactionContainer extends AggregateRoot {
+    readonly id: TransactionId;
+    readonly userId: UserId;
+    readonly accountId: AccountId;
+    private _tagId: TagId;
+    private _name: TransactionName;
+    private _amount: TransactionAmount;
+    private _date: TransactionDate;
 
 
-    protected constructor(name: string, amount: number, tag?:Tag, date?: Date){
-        this._name = name;
+    constructor(id: TransactionId,
+                userId: UserId,
+                accountId: AccountId,
+                tagId: TagId,
+                name: Nullable<TransactionName>,
+                amount: TransactionAmount,
+                date: TransactionDate) {
+        super();
+        this.id = id;
+        this.userId = userId;
+        this.accountId = accountId;
+        name ? this._name = name : this._name = new TransactionName("");
+        this._tagId = tagId;
         this._amount = amount;
-        if(tag){
-            this._tag = tag;
-        }else{
-            this._tag = new Tag("");
-        }
-        if(date){
-            this._date = date;
-        }else{
-            this._date = new Date();
-        }
+        this._date = TransactionDate.create(new Date());
     }
 
-    get id(): any {
-        return this._id;
-    }
 
-    set id(value: any) {
-        this._id = value;
-    }
-
-    get name(): string {
+    public get name(): TransactionName {
         return this._name;
     }
 
-    set name(value: string) {
+    public set name(value: TransactionName) {
         this._name = value;
     }
 
-    get tag(): Tag {
-        return this._tag;
+    public get tagId(): TagId {
+        return this._tagId;
     }
 
-    set tag(value: Tag) {
-        this._tag = value;
+    public set tagId(value: TagId) {
+        this._tagId = value;
     }
 
-    get amount(): number {
+    public get amount(): TransactionAmount {
         return this._amount;
     }
 
-    set amount(value: number) {
+    public set amount(value: TransactionAmount) {
         this._amount = value;
     }
 
-    get date(): Date {
+    public get date(): TransactionDate {
         return this._date;
     }
 
-    set date(value: Date) {
+    public set date(value: TransactionDate) {
         this._date = value;
     }
 }

@@ -4,7 +4,7 @@ import { DuplicateKeyException } from '../../../../Shared/domain/exceptions/Dupl
 import { UndefinedException } from '../../../../Shared/domain/exceptions/UndefinedException';
 import { Nullable } from '../../../../Shared/domain/Nullable';
 import { MongoRepository } from '../../../../Shared/infrastructure/persistence/mongo/MongoRepository';
-import { AccountId } from '../../../Shared/domain/Account/AcountId';
+import { AccountId } from '../../../Shared/domain/Account/AccountId';
 import { UserId } from '../../../Shared/domain/User/UserId';
 import Account from '../../domain/Account';
 import AccountRepository from '../../domain/AccountRepository';

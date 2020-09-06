@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
 import { Balance } from '../../../Shared/domain/value-object/Balance';
-import { AccountId } from '../../Shared/domain/Account/AcountId';
+import { AccountId } from '../../Shared/domain/Account/AccountId';
 import { UserId } from '../../Shared/domain/User/UserId';
 import { AccountName } from './AccountName';
 
