@@ -1,80 +1,135 @@
-import * as Constants from '../../../../../polvebra/src/bytaj/main/shared/application/Constants';
-import Tag from '../../Tag/domain/Tag';
-import * as GeneralFunctions from '../../../../../polvebra/src/bytaj/main/shared/application/GeneralFunctions';
-import Account from '../../Account/domain/Account';
-import AbstractTransaction from './Transaction';
-import AbstractFactroy from './AbstractFactory';
-import TransactionBuilder from './TransactionBuilder';
+import { Nullable } from '../../../Shared/domain/Nullable';
+import { DateCompleteValueObject } from '../../../Shared/domain/value-object/DateCompleteValueObject';
+import { DayDateValueObject } from '../../../Shared/domain/value-object/DayDateValueObject';
+import { AccountId } from '../../Shared/domain/Account/AccountId';
+import { TagId } from '../../Shared/domain/Tag/TagId';
+import { PeriodicTransactionId } from '../../Shared/domain/Transaction/PeriodicTransactionId';
+import { TransactionId } from '../../Shared/domain/Transaction/TransactionId';
+import { UserId } from '../../Shared/domain/User/UserId';
+import { numberToIntervalPeriodicTransaction } from './IntervalPeriodicTransaction';
+import { IntervalPeriodicTransaction } from './IntervalPeriodicTransaction';
+import TransactionAmount from './TransactionAmount';
 import TransactionContainer from './TransactionContainer';
+import { TransactionName } from './TransactionName';
 
-export default class PeriodicTransaction extends TransactionContainer{
-    private _account: Account;
-    private _endDate?: Date;
-    private _interval : number;
-    private _transactionType : string;
-    private _lastDate?: Date;
+export default class PeriodicTransaction extends TransactionContainer {
+    private _beginDate: DayDateValueObject;
+    private _endDate: Nullable<DayDateValueObject>;
+    private _interval: IntervalPeriodicTransaction;
+    private _lastDate: DayDateValueObject;
 
-    public constructor(name: string, amount: number, account: Account, interval:number, paidsAlreadyDones: number, transactionType:string, beginDate: Date, tag:Tag, endDate?: Date){
-        super(name, amount, tag, beginDate);
-        this._account = account;
+    public constructor(id: PeriodicTransactionId,
+                       userId: UserId,
+                       accountId: AccountId,
+                       tagId: TagId,
+                       name: TransactionName,
+                       amount: TransactionAmount,
+                       interval: IntervalPeriodicTransaction,
+                       lastDate: DayDateValueObject,
+                       beginDate: DateCompleteValueObject,
+                       endDate: Nullable<DateCompleteValueObject>) {
+        super(id, userId, accountId, tagId, name, amount);
+
+        this._beginDate = beginDate;
         this._endDate = endDate;
         this._interval = interval;
-        this._transactionType = transactionType;
+        this._lastDate = lastDate;
     }
 
-
-    get account(): Account {
-        return this._account;
+    public get beginDate(): DayDateValueObject {
+        return this._beginDate;
     }
 
-    set account(value: Account) {
-        this._account = value;
+    public set beginDate(value: DayDateValueObject) {
+        this._beginDate = value;
     }
 
-    get endDate(): Date {
-        return <Date>this._endDate;
+    public get endDate(): Nullable<DayDateValueObject> {
+        return this._endDate;
     }
 
-    set endDate(value: Date) {
+    public set endDate(value: Nullable<DayDateValueObject>) {
         this._endDate = value;
     }
 
-    get interval(): number {
+    public get interval(): IntervalPeriodicTransaction {
         return this._interval;
     }
 
-    set interval(value: number) {
+    public set interval(value: IntervalPeriodicTransaction) {
         this._interval = value;
     }
 
-    get transactionType(): string {
-        return this._transactionType;
+    public get lastDate(): DayDateValueObject {
+        return this._lastDate;
     }
 
-    set transactionType(value: string) {
-        this._transactionType = value;
-    }
-
-    get lastDate(): Date {
-        return <Date>this._lastDate;
-    }
-
-    set lastDate(value: Date) {
+    public set lastDate(value: DayDateValueObject) {
         this._lastDate = value;
     }
 
-    public createNewTransaction(transactionDate?: Date){
-        let transactionBuilder : TransactionBuilder;
-        if(!transactionDate){
-            transactionDate = new Date();
-        }
-        let transactionName: string = this.name + GeneralFunctions.dateToString(transactionDate);
-        if (this.transactionType == Constants.OUTLAY_STRING){
-            transactionBuilder = AbstractFactroy.getTransactionFactory().createOutlayBuilder(transactionName, this.amount);
-        }else{
-            transactionBuilder = AbstractFactroy.getTransactionFactory().createDepositBuilder(transactionName, this.amount);
-        }
+    static create(id: PeriodicTransactionId,
+                  userId: UserId,
+                  accountId: AccountId,
+                  tagId: TagId,
+                  name: TransactionName,
+                  amount: TransactionAmount,
+                  interval: IntervalPeriodicTransaction,
+                  lastDate: Nullable<DayDateValueObject>,
+                  beginDate: Nullable<DateCompleteValueObject>,
+                  endDate: Nullable<DateCompleteValueObject>): PeriodicTransaction {
+        const currentBeginDate = beginDate ? beginDate : DayDateValueObject.createNow();
+        const currentLastDate = lastDate ? lastDate : currentBeginDate;
+        return new PeriodicTransaction(id,
+                                       userId,
+                                       accountId,
+                                       tagId,
+                                       name,
+                                       amount,
+                                       interval,
+                                       currentLastDate,
+                                       currentBeginDate,
+                                       endDate);
+    }
 
-        let transaction: AbstractTransaction = transactionBuilder.setDate(transactionDate).setPaid(true).build();
+    static fromPrimitives(plainData: {
+        id: string,
+        userId: string,
+        accountId: string,
+        tagId: string,
+        name: string,
+        amount: number,
+        interval:number,
+        lastDate: string,
+        beginDate: string,
+        endDate: string
+    }): PeriodicTransaction {
+        return new PeriodicTransaction(
+            new TransactionId(plainData.id),
+            new UserId(plainData.userId),
+            new AccountId(plainData.accountId),
+            new TagId(plainData.tagId),
+            new TransactionName(plainData.name),
+            new TransactionAmount(plainData.amount),
+            numberToIntervalPeriodicTransaction(plainData.interval),
+            DayDateValueObject.createFromString(plainData.lastDate),
+            DayDateValueObject.createFromString(plainData.beginDate),
+            DayDateValueObject.createFromString(plainData.endDate),
+        );
+    }
+
+    public toPrimitives() {
+        return {
+            id: this.id.value,
+            userId: this.userId.value,
+            accountId: this.accountId.value,
+            tagId: this.tagId.value,
+            name: this.name.value,
+            amount: this.amount.value,
+            interval:this.interval.valueOf(),
+            lastDate: this._lastDate.toString(),
+            beginDate: this._beginDate.toString(),
+            endDate: this.endDate ? this._endDate?.toString() : null,
+        };
     }
 }

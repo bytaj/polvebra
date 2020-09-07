@@ -96,11 +96,11 @@ describe('Find Accounts', () => {
         await repository.save(accountAPreSaved);
         const accountASaved = await repository.search(accountID);
         expect(accountASaved).not.toBeNull();
-        expect(accountAPreSaved.id.value).toEqual(accountAId.value);
-        expect(accountAPreSaved.userId.value).toEqual(userAId.value);
-        expect(accountAPreSaved.name.value).toEqual('Name A');
-        expect(accountAPreSaved.balance.value).toEqual(0);
-        expect(accountAPreSaved.netBalance.value).toEqual(1);
+        expect(accountASaved?.id.value).toEqual(accountAId.value);
+        expect(accountASaved?.userId.value).toEqual(userAId.value);
+        expect(accountASaved?.name.value).toEqual('Name A');
+        expect(accountASaved?.balance.value).toEqual(0);
+        expect(accountASaved?.netBalance.value).toEqual(1);
     });
 
     it('Find all the accounts', async () => {

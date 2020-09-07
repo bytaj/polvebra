@@ -44,7 +44,7 @@ function createTransactionA(): Transaction {
                                           amount: 123,
                                           paid: true,
                                           subTransactionTotal: 2,
-                                          date: '20/01/01'
+                                          date: '2020-01-01T12:02:02Z'
                                       });
 }
 
@@ -59,7 +59,7 @@ function createTransactionB(): Transaction {
                                           amount: 123,
                                           paid: true,
                                           subTransactionTotal: 0,
-                                          date: '20/01/01'
+                                          date: '2020-01-01T12:02:02Z'
                                       });
 }
 
@@ -74,7 +74,7 @@ function createTransactionC(): Transaction {
                                           amount: 123,
                                           paid: true,
                                           subTransactionTotal: 0,
-                                          date: '20/01/01'
+                                          date: '2020-01-01T12:02:02Z'
                                       });
 
 }function createTransactionD(): Transaction {
@@ -88,7 +88,7 @@ function createTransactionC(): Transaction {
                                           amount: 123,
                                           paid: true,
                                           subTransactionTotal: 0,
-                                          date: '20/01/01'
+                                          date: '2020-01-01T12:02:02Z'
                                       });
 }
 
@@ -113,7 +113,7 @@ describe('Save Transaction', () => {
                                                             amount: 123,
                                                             paid: true,
                                                             subTransactionTotal: 0,
-                                                            date: '01/01/20'
+                                                            date: '2020-01-01T12:02:02Z'
                                                         });
         return expect(repository.save(transactionB)).rejects.toThrow(DuplicateKeyException);
     });
@@ -126,15 +126,16 @@ describe('Find Transactions', () => {
         await repository.save(transactionAPreSaved);
         const transactionASaved = await repository.search(transactionID);
         expect(transactionASaved).not.toBeNull();
-        expect(transactionAPreSaved.id.value).toEqual(transactionAId.value);
-        expect(transactionAPreSaved.userId.value).toEqual(userAId.value);
-        expect(transactionAPreSaved.accountId.value).toEqual(accountAId.value);
-        expect(transactionAPreSaved.tagId.value).toEqual(tagAId.value);
-        expect(transactionAPreSaved.transactionParentId).toBeNull();
-        expect(transactionAPreSaved.name.value).toEqual('Transaction A');
-        expect(transactionAPreSaved.amount.value).toEqual(123);
-        expect(transactionAPreSaved.paid).toEqual(true);
-        expect(transactionAPreSaved.subTransactionTotal.value).toEqual(2);
+        expect(transactionASaved?.id.value).toEqual(transactionAId.value);
+        expect(transactionASaved?.userId.value).toEqual(userAId.value);
+        expect(transactionASaved?.accountId.value).toEqual(accountAId.value);
+        expect(transactionASaved?.tagId.value).toEqual(tagAId.value);
+        expect(transactionASaved?.transactionParentId).toBeNull();
+        expect(transactionASaved?.name.value).toEqual('Transaction A');
+        expect(transactionASaved?.amount.value).toEqual(123);
+        expect(transactionASaved?.date.toString()).toEqual('2020-01-01T12:02:02Z');
+        expect(transactionASaved?.paid).toEqual(true);
+        expect(transactionASaved?.subTransactionTotal.value).toEqual(2);
     });
 
     it('Find all the transactions', async () => {

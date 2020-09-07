@@ -1,4 +1,5 @@
 import { Nullable } from '../../../Shared/domain/Nullable';
+import { DateCompleteValueObject } from '../../../Shared/domain/value-object/DateCompleteValueObject';
 import { AccountId } from '../../Shared/domain/Account/AccountId';
 import { TagId } from '../../Shared/domain/Tag/TagId';
 import { TransactionId } from '../../Shared/domain/Transaction/TransactionId';
@@ -6,11 +7,11 @@ import { UserId } from '../../Shared/domain/User/UserId';
 import SubTransactionTotal from './SubTransactionTotal';
 import TransactionAmount from './TransactionAmount';
 import TransactionContainer from './TransactionContainer';
-import TransactionDate from './TransactionDate';
 import { TransactionName } from './TransactionName';
 
 
 export default class Transaction extends TransactionContainer {
+    private _date: DateCompleteValueObject;
     readonly transactionParentId: Nullable<TransactionId>;
     private _paid: boolean;
     private _subTransactionTotal : SubTransactionTotal;
@@ -24,11 +25,12 @@ export default class Transaction extends TransactionContainer {
                        amount: TransactionAmount,
                        paid: boolean,
                        subTransactionTotal: SubTransactionTotal,
-                       date: TransactionDate) {
-        super(id, userId, accountId, tagId, name, amount, date);
+                       date: DateCompleteValueObject) {
+        super(id, userId, accountId, tagId, name, amount);
         this._paid = paid;
         this.transactionParentId = transactionParentId;
         this._subTransactionTotal = subTransactionTotal
+        this._date = date;
     }
 
     public get paid(): boolean {
@@ -47,6 +49,14 @@ export default class Transaction extends TransactionContainer {
         this._subTransactionTotal = value;
     }
 
+    public get date(): DateCompleteValueObject {
+        return this._date;
+    }
+
+    public set date(value: DateCompleteValueObject) {
+        this._date = value;
+    }
+
     static create(id: TransactionId,
                   userId: UserId,
                   accountId: AccountId,
@@ -55,10 +65,10 @@ export default class Transaction extends TransactionContainer {
                   name: Nullable<TransactionName>,
                   amount: TransactionAmount,
                   paid: boolean,
-                  date?: TransactionDate): Transaction {
+                  date?: DateCompleteValueObject): Transaction {
         let recordDate, recordName;
         name ? recordName = name : recordName = new TransactionName('');
-        date ? recordDate = date : recordDate = TransactionDate.create(new Date());
+        date ? recordDate = date : recordDate = DateCompleteValueObject.createNow();
         return new Transaction(id, userId, accountId, tagId, transactionId, recordName, amount, paid, new SubTransactionTotal(0), recordDate);
     }
 
@@ -84,7 +94,7 @@ export default class Transaction extends TransactionContainer {
             new TransactionAmount(plainData.amount),
             plainData.paid,
             new SubTransactionTotal(plainData.subTransactionTotal),
-            TransactionDate.createFromString(plainData.date)
+            DateCompleteValueObject.createFromString(plainData.date)
         );
     }
 
@@ -99,7 +109,7 @@ export default class Transaction extends TransactionContainer {
             amount: this.amount.value,
             paid: this._paid,
             subTransactionTotal: this._subTransactionTotal.value,
-            date: this.date.value
+            date: this.date.toString()
         };
     }
 

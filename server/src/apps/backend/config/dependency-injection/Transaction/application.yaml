@@ -3,3 +3,7 @@ services:
   Polvebra.transaction.TransactionRepository:
     class: ../../../../../Contexts/App/Transaction/infrastructure/persistence/MongoTransactionRepository
     arguments: []
+
+  Polvebra.transaction.PeriodicTransactionRepository:
+    class: ../../../../../Contexts/App/Transaction/infrastructure/persistence/MongoPeriodicTransactionRepository
+    arguments: []

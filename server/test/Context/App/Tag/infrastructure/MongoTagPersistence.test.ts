@@ -106,13 +106,13 @@ describe('Find Tags', () => {
         await repository.save(tagAPreSaved);
         const tagASaved = await repository.search(tagID);
         expect(tagASaved).not.toBeNull();
-        expect(tagAPreSaved.id.value).toEqual(tagAId.value);
-        expect(tagAPreSaved.userId.value).toEqual(userAId.value);
-        expect(tagAPreSaved.parentTagId).toBeNull();
-        expect(tagAPreSaved.name.value).toEqual('Name A');
-        expect(tagAPreSaved.description.value).toEqual('Description A');
-        expect(tagAPreSaved.balance.value).toEqual(0);
-        expect(tagAPreSaved.netBalance.value).toEqual(1);
+        expect(tagASaved?.id.value).toEqual(tagAId.value);
+        expect(tagASaved?.userId.value).toEqual(userAId.value);
+        expect(tagASaved?.parentTagId).toBeNull();
+        expect(tagASaved?.name.value).toEqual('Name A');
+        expect(tagASaved?.description.value).toEqual('Description A');
+        expect(tagASaved?.balance.value).toEqual(0);
+        expect(tagASaved?.netBalance.value).toEqual(1);
     });
 
     it('Find one tag with parent in DB by ID', async () => {

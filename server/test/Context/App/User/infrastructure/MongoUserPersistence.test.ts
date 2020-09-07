@@ -122,13 +122,13 @@ describe('Find User', () => {
         await repository.save(userAPreSaved);
         const clientASaved = await repository.search(userID);
         expect(clientASaved).not.toBeNull();
-        expect(userAPreSaved.id).toEqual(clientASaved?.id);
-        expect(userAPreSaved.name).toEqual(clientASaved?.name);
-        expect(userAPreSaved.username).toEqual(clientASaved?.username);
-        expect(userAPreSaved.email).toEqual(clientASaved?.email);
-        expect(userAPreSaved.password).toEqual(clientASaved?.password);
-        expect(userAPreSaved.balance).toEqual(clientASaved?.balance);
-        expect(userAPreSaved.netBalance).toEqual(clientASaved?.netBalance);
+        expect(clientASaved?.id).toEqual(clientASaved?.id);
+        expect(clientASaved?.name).toEqual(clientASaved?.name);
+        expect(clientASaved?.username).toEqual(clientASaved?.username);
+        expect(clientASaved?.email).toEqual(clientASaved?.email);
+        expect(clientASaved?.password).toEqual(clientASaved?.password);
+        expect(clientASaved?.balance).toEqual(clientASaved?.balance);
+        expect(clientASaved?.netBalance).toEqual(clientASaved?.netBalance);
     });
 
     it('Find all the users', async () => {
