@@ -75,6 +75,10 @@ export class MongoPeriodicTransactionRepository extends MongoRepository<Periodic
         0 ? result : null;
     }
 
+    public update(id: PeriodicTransactionId, aggregateRoot: PeriodicTransaction): Promise<void> {
+        return this.modify(id.value, aggregateRoot);
+    }
+
     protected classModel(): Model<any> {
         return PeriodicTransactionModel;
     }

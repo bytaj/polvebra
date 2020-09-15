@@ -12,4 +12,6 @@ export default interface AccountRepository{
     searchAll(): Promise<Nullable<Account[]>>;
 
     searchAllAccountsFromUser(id:UserId): Promise<Nullable<Account[]>>;
+
+    update(id:AccountId, account: Account): Promise<void>;
 }

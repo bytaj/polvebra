@@ -1,20 +1,23 @@
+import container from '../../../../apps/backend/config/dependency-injection';
 import { Nullable } from '../../../Shared/domain/Nullable';
 import { DateCompleteValueObject } from '../../../Shared/domain/value-object/DateCompleteValueObject';
 import { AccountId } from '../../Shared/domain/Account/AccountId';
 import { TagId } from '../../Shared/domain/Tag/TagId';
 import { TransactionId } from '../../Shared/domain/Transaction/TransactionId';
 import { UserId } from '../../Shared/domain/User/UserId';
-import SubTransactionTotal from './SubTransactionTotal';
+import { TransactionCreatedDomainEvent } from './DomainEvent/TransactionCreatedDomainEvent';
 import TransactionAmount from './TransactionAmount';
 import TransactionContainer from './TransactionContainer';
 import { TransactionName } from './TransactionName';
+import TransactionRepository from './TransactionRepository';
 
 
 export default class Transaction extends TransactionContainer {
+    private readonly repository: TransactionRepository = container.get('Polvebra.transaction.TransactionRepository');
     private _date: DateCompleteValueObject;
     readonly transactionParentId: Nullable<TransactionId>;
     private _paid: boolean;
-    private _subTransactionTotal : SubTransactionTotal;
+    private _overwriteBySubTransaction: boolean;
 
     public constructor(id: TransactionId,
                        userId: UserId,
@@ -24,13 +27,13 @@ export default class Transaction extends TransactionContainer {
                        name: TransactionName,
                        amount: TransactionAmount,
                        paid: boolean,
-                       subTransactionTotal: SubTransactionTotal,
-                       date: DateCompleteValueObject) {
+                       date: DateCompleteValueObject,
+                       overwriteBySubTransaction: boolean) {
         super(id, userId, accountId, tagId, name, amount);
         this._paid = paid;
         this.transactionParentId = transactionParentId;
-        this._subTransactionTotal = subTransactionTotal
         this._date = date;
+        this._overwriteBySubTransaction = overwriteBySubTransaction;
     }
 
     public get paid(): boolean {
@@ -41,20 +44,20 @@ export default class Transaction extends TransactionContainer {
         this._paid = value;
     }
 
-    public get subTransactionTotal(): SubTransactionTotal {
-        return this._subTransactionTotal;
-    }
-
-    public set subTransactionTotal(value: SubTransactionTotal) {
-        this._subTransactionTotal = value;
-    }
-
     public get date(): DateCompleteValueObject {
         return this._date;
     }
 
     public set date(value: DateCompleteValueObject) {
         this._date = value;
+    }
+
+    public get overwriteBySubTransaction(): boolean {
+        return this._overwriteBySubTransaction;
+    }
+
+    public set overwriteBySubTransaction(value: boolean) {
+        this._overwriteBySubTransaction = value;
     }
 
     static create(id: TransactionId,
@@ -65,11 +68,35 @@ export default class Transaction extends TransactionContainer {
                   name: Nullable<TransactionName>,
                   amount: TransactionAmount,
                   paid: boolean,
+                  overwriteBySubTransaction: boolean,
                   date?: DateCompleteValueObject): Transaction {
         let recordDate, recordName;
         name ? recordName = name : recordName = new TransactionName('');
         date ? recordDate = date : recordDate = DateCompleteValueObject.createNow();
-        return new Transaction(id, userId, accountId, tagId, transactionId, recordName, amount, paid, new SubTransactionTotal(0), recordDate);
+        if (overwriteBySubTransaction) {
+            amount = new TransactionAmount(0);
+        }
+        const transaction = new Transaction(id,
+                                            userId,
+                                            accountId,
+                                            tagId,
+                                            transactionId,
+                                            recordName,
+                                            amount,
+                                            paid,
+                                            recordDate,
+                                            overwriteBySubTransaction
+        );
+        transaction.record(new
+                           TransactionCreatedDomainEvent({
+                                                             id: transaction.id.value,
+                                                             amount: transaction.amount.value,
+                                                             accountId: transaction.accountId.value,
+                                                             tagId: transaction.tagId.value,
+                                                             transactionParentId: transaction.transactionParentId?.value,
+                                                             paid: transaction.paid
+                                                         }));
+        return transaction;
     }
 
     static fromPrimitives(plainData: {
@@ -81,7 +108,7 @@ export default class Transaction extends TransactionContainer {
         name: string,
         amount: number,
         paid: boolean,
-        subTransactionTotal: number,
+        overwriteBySubTransaction: boolean,
         date: string
     }): Transaction {
         return new Transaction(
@@ -93,8 +120,8 @@ export default class Transaction extends TransactionContainer {
             new TransactionName(plainData.name),
             new TransactionAmount(plainData.amount),
             plainData.paid,
-            new SubTransactionTotal(plainData.subTransactionTotal),
-            DateCompleteValueObject.createFromString(plainData.date)
+            DateCompleteValueObject.createFromString(plainData.date),
+            plainData.overwriteBySubTransaction
         );
     }
 
@@ -108,9 +135,36 @@ export default class Transaction extends TransactionContainer {
             name: this.name.value,
             amount: this.amount.value,
             paid: this._paid,
-            subTransactionTotal: this._subTransactionTotal.value,
+            overwriteBySubTransaction: this._overwriteBySubTransaction,
             date: this.date.toString()
         };
+    }
+
+    public async getSubsTransaction(): Promise<Nullable<Transaction[]>> {
+        return this.repository.searchSubTransaction(this.id);
+    }
+
+    public async hasSubTransaction(transactionId: TransactionId): Promise<boolean> {
+        const subTransactions = await this.getSubsTransaction();
+        if (!subTransactions) {
+            return false;
+        }
+        return subTransactions.find(entry => entry.id.value ==
+            transactionId.value) !=
+            undefined;
+    }
+
+    public async addSubTransaction(newTransactionId: TransactionId, amount: TransactionAmount): Promise<void> {
+        if (this._overwriteBySubTransaction) {
+            this.modifyAmount(amount);
+        }
+        await this.repository.search(newTransactionId);
+    }
+
+    public async modifyAmount(modification: TransactionAmount) {
+        this.amount =
+            new TransactionAmount(this.amount.value +
+                                      modification.value);
     }
 
     /*private calculeAllAmount: (acc: number, type: number, tr: AbstractTransaction) => number =

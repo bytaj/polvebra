@@ -59,6 +59,10 @@ export class MongoAccountRepository extends MongoRepository<Account> implements 
         0 ? result : null;
     }
 
+    public update(id: AccountId, account: Account): Promise<void> {
+        return this.modify(id.value, account);
+    }
+
     protected classModel(): Model<any> {
         return AccountModel;
     }

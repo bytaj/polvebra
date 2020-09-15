@@ -2,16 +2,16 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Nullable } from '../../../../Shared/domain/Nullable';
 import { MapperErrorToHttpCode } from '../../../../Shared/infrastructure/MapperErrorToHttpCode';
-import { SessionManager } from '../../../Shared/domain/SessionManager';
 import { UserId } from '../../../Shared/domain/User/UserId';
 import { Controller } from '../../../Shared/infrastructure/controllers/Controller';
 import { UserFinder } from '../../application/UserFinder';
 import User from '../../domain/User';
 
 export class UserGetController implements Controller {
-    constructor(private clientFinder: UserFinder, private sessionManager: SessionManager) {
+    constructor(private clientFinder: UserFinder) {
     }
 
+    //TODO Terminar
     async run(req: Request, res: Response) {
         try {
             let userId: Nullable<UserId>;
@@ -22,7 +22,7 @@ export class UserGetController implements Controller {
             }
             const userPetition = (<any>req).user;
 
-            const users: Nullable<User[]> = await this.clientFinder.run(userId, userPetition);
+            const users: Nullable<User[]> = await this.clientFinder.run(null, userPetition);
             if (users) {
                 res.json(users).status(httpStatus.OK);
             } else {

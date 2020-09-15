@@ -10,7 +10,7 @@ const transactionSchema = new Schema({
                                          name: {type: String, required: true},
                                          amount: {type: Number, required: true},
                                          paid: {type: Boolean, required: true},
-                                         subTransactionTotal: {type: Number, required: true},
+                                         overwriteBySubTransaction: {type: Boolean, required: true},
                                          date: {type: String, required: true}
                                      }, {
                                          _id: false,

@@ -27,6 +27,10 @@ export abstract class MongoRepository<T extends AggregateRoot> {
         });
     }
 
+    public modify(id:string, aggregateRoot: T):Promise<void>{
+        return this.classModel().updateOne({id: id}, this.objectToDocument(id, aggregateRoot)).exec();
+    }
+
     public remove(model: Model<any>, id: any) {
         return model.deleteOne({'_id': id});
     }

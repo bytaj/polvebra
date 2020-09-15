@@ -17,4 +17,6 @@ export default interface TransactionRepository{
     searchAllTransactionsFromAccount(id: AccountId) : Promise<Nullable<Transaction[]>>;
 
     searchSubTransaction(id: TransactionId): Promise<Nullable<Transaction[]>>;
+
+    update(id:TransactionId, transaction: Transaction): Promise<void>;
 }

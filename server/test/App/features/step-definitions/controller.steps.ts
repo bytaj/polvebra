@@ -16,25 +16,29 @@ Given('I send a PUT request to {string} with body:', (route: string, body: strin
     _request = request(app).put(route).send(JSON.parse(body));
 });
 
+Given('I send a POST request to {string} with body:', (route: string, body: string) => {
+    _request = request(app).post(route).send(JSON.parse(body));
+});
+
 Then('the response status code should be {int}', async (status: number) => {
     _response = await _request.expect(status);
 });
 
 Then('the response should be empty', () => {
-    assert.deepEqual(_response.body, {});
+    assert.deepStrictEqual(_response.body, {});
 });
 
 Then('the response content should be:', response => {
-    assert.deepEqual(_response.body, JSON.parse(response));
+    assert.deepStrictEqual(_response.body, JSON.parse(response));
 });
 
 Before(async () => {
-    const environmentArranger: Promise<EnvironmentArranger> = container.get('Mooc.EnvironmentArranger');
+    const environmentArranger: EnvironmentArranger = container.get('App.EnvironmentArranger');
     await (await environmentArranger).arrange();
 });
 
 AfterAll(async () => {
-    const environmentArranger: Promise<EnvironmentArranger> = container.get('Mooc.EnvironmentArranger');
+    const environmentArranger: EnvironmentArranger = container.get('App.EnvironmentArranger');
     await (await environmentArranger).arrange();
     await (await environmentArranger).close();
 });

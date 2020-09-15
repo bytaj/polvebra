@@ -6,8 +6,12 @@ services:
 
   Apps.polvebra.controllers.CreateUserPutController:
     class: ../../../../../Contexts/App/User/infrastructure/controllers/CreateUserPutController
-    arguments: ['@Polvebra.users.UserCreator']
+    arguments: ['@Polvebra.user.UserCreator']
 
   Apps.polvebra.controllers.UserGetController:
     class: ../../../../../Contexts/App/User/infrastructure/controllers/UserGetController
-    arguments: ['@Polvebra.users.UserFinder']
+    arguments: ['@Polvebra.user.UserFinder']
+
+  Apps.polvebra.controllers.LoginPostController:
+    class: ../../../../../Contexts/App/User/infrastructure/controllers/LoginPostController
+    arguments: [ '@Polvebra.user.UserLogin' ]

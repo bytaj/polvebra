@@ -76,6 +76,10 @@ export class MongoTagRepository extends MongoRepository<Tag> implements TagRepos
         0 ? result : null;
     }
 
+    public update(id: TagId, aggregateRoot: Tag): Promise<void> {
+        return this.modify(id.value, aggregateRoot);
+    }
+
     protected classModel(): Model<any> {
         return TagModel;
     }

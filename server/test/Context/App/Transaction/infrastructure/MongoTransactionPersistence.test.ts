@@ -43,7 +43,7 @@ function createTransactionA(): Transaction {
                                           name: 'Transaction A',
                                           amount: 123,
                                           paid: true,
-                                          subTransactionTotal: 2,
+                                          overwriteBySubTransaction: false,
                                           date: '2020-01-01T12:02:02Z'
                                       });
 }
@@ -58,7 +58,7 @@ function createTransactionB(): Transaction {
                                           name: 'Transaction A',
                                           amount: 123,
                                           paid: true,
-                                          subTransactionTotal: 0,
+                                          overwriteBySubTransaction: false,
                                           date: '2020-01-01T12:02:02Z'
                                       });
 }
@@ -73,7 +73,7 @@ function createTransactionC(): Transaction {
                                           name: 'Transaction A',
                                           amount: 123,
                                           paid: true,
-                                          subTransactionTotal: 0,
+                                          overwriteBySubTransaction: false,
                                           date: '2020-01-01T12:02:02Z'
                                       });
 
@@ -87,7 +87,7 @@ function createTransactionC(): Transaction {
                                           name: 'Transaction D',
                                           amount: 123,
                                           paid: true,
-                                          subTransactionTotal: 0,
+                                          overwriteBySubTransaction: false,
                                           date: '2020-01-01T12:02:02Z'
                                       });
 }
@@ -112,7 +112,7 @@ describe('Save Transaction', () => {
                                                             name: 'Transaction A',
                                                             amount: 123,
                                                             paid: true,
-                                                            subTransactionTotal: 0,
+                                                            overwriteBySubTransaction: false,
                                                             date: '2020-01-01T12:02:02Z'
                                                         });
         return expect(repository.save(transactionB)).rejects.toThrow(DuplicateKeyException);
@@ -135,7 +135,7 @@ describe('Find Transactions', () => {
         expect(transactionASaved?.amount.value).toEqual(123);
         expect(transactionASaved?.date.toString()).toEqual('2020-01-01T12:02:02Z');
         expect(transactionASaved?.paid).toEqual(true);
-        expect(transactionASaved?.subTransactionTotal.value).toEqual(2);
+        expect(transactionASaved?.overwriteBySubTransaction).toEqual(false);
     });
 
     it('Find all the transactions', async () => {

@@ -7,3 +7,16 @@ services:
   Polvebra.transaction.PeriodicTransactionRepository:
     class: ../../../../../Contexts/App/Transaction/infrastructure/persistence/MongoPeriodicTransactionRepository
     arguments: []
+
+  Polvebra.transaction.SubTransactionIncrementer:
+    class: ../../../../../Contexts/App/Transaction/application/Create/SubTransactionIncrementer
+    arguments: [
+        '@Polvebra.transaction.TransactionRepository',
+        '@Polvebra.shared.EventBus'
+    ]
+
+  Polvebra.transaction.IncrementSubTransactionOnTransactionCreated:
+    class: ../../../../../Contexts/App/Transaction/application/Create/IncrementSubTransactionOnTransactionCreated
+    arguments: ['@Polvebra.transaction.SubTransactionIncrementer']
+    tags:
+      - { name: 'domainEventSubscriber' }

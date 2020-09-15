@@ -15,4 +15,6 @@ export default interface PeriodicTransactionRepository{
     searchAllPeriodicTransactionsFromUser(id:UserId): Promise<Nullable<PeriodicTransaction[]>>;
 
     searchAllPeriodicTransactionsFromAccount(id: AccountId) : Promise<Nullable<PeriodicTransaction[]>>;
+
+    update(id:PeriodicTransactionId, periodicTransaction:PeriodicTransaction): Promise<void>;
 }

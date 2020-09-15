@@ -3,3 +3,17 @@ services:
   Polvebra.account.AccountRepository:
     class: ../../../../../Contexts/App/Account/infrastructure/persistence/MongoAccountRepository
     arguments: []
+
+
+  Polvebra.account.AccountAmountIncrementer:
+    class: ../../../../../Contexts/App/Account/application/Incrementer/AccountAmountIncrementer
+    arguments: [
+        '@Polvebra.account.AccountRepository',
+        '@Polvebra.shared.EventBus'
+    ]
+
+  Polvebra.account.IncrementSubTransactionOnTransactionCreated:
+    class: ../../../../../Contexts/App/Account/application/Incrementer/IncrementAmountOnTransactionCreated
+    arguments: ['@Polvebra.account.AccountAmountIncrementer']
+    tags:
+      - { name: 'domainEventSubscriber' }

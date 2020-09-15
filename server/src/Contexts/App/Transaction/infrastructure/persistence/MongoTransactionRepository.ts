@@ -92,6 +92,10 @@ export class MongoTransactionRepository extends MongoRepository<Transaction> imp
         0 ? result : null;
     }
 
+    public update(id: TransactionId, transaction: Transaction): Promise<void> {
+        return this.modify(id.value, transaction);
+    }
+
     protected classModel(): Model<any> {
         return TransactionModel;
     }

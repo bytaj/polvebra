@@ -13,7 +13,7 @@ services:
 
   Polvebra.shared.LoginManager:
     class: ../../../../../Contexts/App/Shared/infrastructure/JWTLogin
-    arguments: ['@Polvebra.shared.Logger, @Polvebra.shared.TokenRepository']
+    arguments: ['@Polvebra.shared.TokenRepository', '@Polvebra.shared.Logger']
 
   Polvebra.shared.SessionManager:
     class: ../../../../../Contexts/App/Shared/infrastructure/SessionManagerJWT

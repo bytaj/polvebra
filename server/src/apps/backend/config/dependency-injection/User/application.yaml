@@ -2,12 +2,29 @@ services:
 
   Polvebra.user.UserRepository:
     class: ../../../../../Contexts/App/User/infrastructure/persistence/MongoUserRepository
-    arguments: []
+    arguments: [ ]
 
   Polvebra.user.UserCreator:
     class: ../../../../../Contexts/App/User/application/UserCreator
-    arguments: ['@Polvebra.user.UserRepository', '@Polvebra.shared.Logger']
+    arguments: [ '@Polvebra.user.UserRepository', '@Polvebra.shared.Logger' ]
 
   Polvebra.user.UserFinder:
     class: ../../../../../Contexts/App/User/application/UserFinder
-    arguments: ['@Polvebra.user.UserRepository', '@Polvebra.user.Logger']
+    arguments: [ '@Polvebra.user.UserRepository' ]
+
+  Polvebra.user.UserLogin:
+    class: ../../../../../Contexts/App/User/application/UserLogin
+    arguments: [ '@Polvebra.user.UserRepository', '@Polvebra.shared.LoginManager', '@Polvebra.shared.Logger' ]
+
+  Polvebra.account.AccountAmountIncrementer:
+    class: ../../../../../Contexts/App/Account/application/Incrementer/AccountAmountIncrementer
+    arguments: [
+        '@Polvebra.account.AccountRepository',
+        '@Polvebra.shared.EventBus'
+    ]
+
+  Polvebra.account.IncrementSubTransactionOnTransactionCreated:
+    class: ../../../../../Contexts/App/Account/application/Incrementer/IncrementAmountOnTransactionCreated
+    arguments: [ '@Polvebra.account.AccountAmountIncrementer' ]
+    tags:
+      - { name: 'domainEventSubscriber' }

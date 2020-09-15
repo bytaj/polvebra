@@ -2,7 +2,9 @@ import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
 import { Balance } from '../../../Shared/domain/value-object/Balance';
 import { AccountId } from '../../Shared/domain/Account/AccountId';
 import { UserId } from '../../Shared/domain/User/UserId';
+import TransactionAmount from '../../Transaction/domain/TransactionAmount';
 import { AccountName } from './AccountName';
+import { AccountModifyBalanceDomainEvent } from './DomainEvent/AccountModifyBalanceDomainEvent';
 
 export default class Account extends AggregateRoot {
     readonly id: AccountId;
@@ -83,4 +85,27 @@ export default class Account extends AggregateRoot {
         };
     }
 
+    public modifyBalance(amount: TransactionAmount, paid: boolean): void {
+        let oldBalance, newBalance;
+        if (paid) {
+            oldBalance = this.netBalance.value;
+            this._netBalance =
+                new Balance(this.netBalance.value +
+                                amount.value);
+            newBalance = this.netBalance.value;
+        } else {
+            oldBalance = this.balance.value;
+            this._balance =
+                new Balance(this.balance.value +
+                                amount.value);
+            newBalance = this.balance.value;
+        }
+        this.record(new AccountModifyBalanceDomainEvent({
+                                                            id: this.id.value,
+                                                            userId: this.userId.value,
+                                                            oldBalance: oldBalance,
+                                                            newBalance: newBalance,
+                                                            paid: paid
+                                                        }));
+    }
 }

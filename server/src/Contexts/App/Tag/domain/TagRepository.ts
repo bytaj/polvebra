@@ -14,4 +14,6 @@ export default interface TagRepository{
     searchAllTagsFromUser(id:UserId): Promise<Nullable<Tag[]>>;
 
     searchTagsSon(id:TagId): Promise<Nullable<Tag[]>>;
+
+    update(id:TagId, tag:Tag):Promise<void>;
 }

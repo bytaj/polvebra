@@ -14,8 +14,8 @@ export class CreateUserPutController implements Controller {
         const username: string = req.body.username;
         const name: string = req.body.name;
         const email: string = req.body.email;
-        const password: string = req.body.password;
-
+        const passwordA: string = req.body.passwordA;
+        const passwordB: string = req.body.passwordB;
 
         try {
             const user = await this.userCreator.run({
@@ -23,10 +23,12 @@ export class CreateUserPutController implements Controller {
                                                         username: username,
                                                         name: name,
                                                         email: email,
-                                                        password: password
-                                                    }, (<any>req).user.type);
+                                                        passwordA: passwordA,
+                                                        passwordB: passwordB
+                                                    });
             res.json(user);
             res.status(httpStatus.CREATED);
+            res.send();
         } catch (error) {
             res.status(MapperErrorToHttpCode(error));
         }

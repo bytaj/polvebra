@@ -68,10 +68,8 @@ export default class User extends AggregateRoot {
                   username: Username,
                   name: Name,
                   email: Email,
-                  password: Password,
-                  balance: Balance,
-                  netBalance: Balance): User {
-        return new User(id, username, name, email, password, balance, netBalance);
+                  password: Password): User {
+        return new User(id, username, name, email, password, new Balance(0), new Balance(0));
     }
 
     static fromPrimitives(plainData: {
@@ -104,6 +102,22 @@ export default class User extends AggregateRoot {
             balance: this._balance.value,
             netBalance: this._netBalance.value,
         };
+    }
+
+    public modifyBalance(oldBalance: Balance, newBalance: Balance, paid: boolean): void {
+        let variation: number;
+        variation =
+            newBalance.value -
+            oldBalance.value;
+        if (paid) {
+            this._netBalance =
+                new Balance(this.netBalance.value +
+                                variation);
+        } else {
+            this._balance =
+                new Balance(this.balance.value +
+                                variation);
+        }
     }
 
     /*public getAllBalance(): number {

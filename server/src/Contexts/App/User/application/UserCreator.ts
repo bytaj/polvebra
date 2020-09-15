@@ -1,8 +1,11 @@
 import { logger } from 'bs-logger';
-import { UnauthorizedAccessException } from '../../../Shared/domain/exceptions/UnauthorizedAccessException';
 import Logger from '../../../Shared/domain/Logger';
-import { UserType } from '../../Shared/domain/User/UserType';
+import { UserId } from '../../Shared/domain/User/UserId';
+import { Email } from '../domain/Email';
+import { Name } from '../domain/Name';
+import { Password } from '../domain/Password';
 import User from '../domain/User';
+import { Username } from '../domain/Username';
 import UserRepository from '../domain/UserRepository';
 
 type Params = {
@@ -10,7 +13,8 @@ type Params = {
     username:string;
     name: string;
     email:string;
-    password: string;
+    passwordA: string;
+    passwordB: string;
 };
 
 export class  UserCreator {
@@ -22,14 +26,10 @@ export class  UserCreator {
         this.logger = logger;
     }
 
-    async run({ id, username, name, email, password}: Params, userType:UserType): Promise<User> {
-        if (userType!=UserType.ADMIN){
-            throw new UnauthorizedAccessException();
-        }
-
-        const user = User.fromPrimitives({ id, username, name, email, password});
-
-
+    async run({ id, username, name, email, passwordA, passwordB}: Params): Promise<User> {
+        Password.verifyPassword(passwordA, passwordB);
+        const password = Password.encryptPassword(passwordA);
+        const user = User.create(new UserId(id), new Username(username), new Name(name), new Email(email), new Password(password));
         await this.repository.save(user);
         logger.info("User " + name + " created successfully!");
         return user;

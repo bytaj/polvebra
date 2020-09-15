@@ -20,23 +20,22 @@ export class  UserFinder {
     async run(userId: Nullable<UserId>, userPetition: UserPetition): Promise<Nullable<User[]>> {
         let users: Nullable<User[]>;
         if (userId){
-            if (this.hasPermission(userPetition, userId)){
+            if (this.hasPermission(userPetition)){
                 users = await this.findOneUser(userId);
             }else{
                 throw new UnauthorizedAccessException();
             }
         }else{
-            users = await this.findAllUsers(userPetition);
+            if (this.hasPermission(userPetition)){
+                users = await this.repository.searchAll();
+            }
+            users = await this.findOneUser(userPetition.id);
         }
         return users;
     }
 
-    hasPermission(userPetition:UserPetition, userAsked:UserId):boolean{
-        if(userPetition.type == UserType.USER){
-            return userPetition.id.value == userAsked.value;
-        }else{
-            return true;
-        }
+    hasPermission(userPetition:UserPetition):boolean{
+        return userPetition.type == UserType.ADMIN;
     }
 
     private async findOneUser(userId: UserId):Promise<Nullable<User[]>>{
@@ -47,14 +46,5 @@ export class  UserFinder {
                 return null;
             }
         });
-    }
-
-    private async findAllUsers(userPetition:UserPetition):Promise<Nullable<User[]>>{
-        if (UserType.USER == userPetition.type){
-            return this.findOneUser(userPetition.id);
-        }else{
-            return this.repository.searchAll();
-        }
-
     }
 }

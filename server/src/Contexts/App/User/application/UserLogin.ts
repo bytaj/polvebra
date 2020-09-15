@@ -1,11 +1,11 @@
 import { IncorrectLogin } from '../../../Shared/domain/exceptions/IncorrectLogin';
 import Logger from '../../../Shared/domain/Logger';
-import { Nullable } from '../../../Shared/domain/Nullable';
 import { LoginManager } from '../../Shared/domain/LoginManager';
+import { LoginTokens } from '../../Shared/domain/LoginTokens';
 import { UserType } from '../../Shared/domain/User/UserType';
 import UserRepository from '../domain/UserRepository';
 
-export class  ClientLogin {
+export class  UserLogin {
     private repository: UserRepository;
     private loginManager: LoginManager;
     private logger: Logger;
@@ -16,13 +16,12 @@ export class  ClientLogin {
         this.logger = logger;
     }
 
-    async run(user:string, password:string): Promise<Nullable<string>> {
+    async run(user:string, password:string): Promise<LoginTokens> {
         const userId = await this.repository.loginUser(user, password);
         if (userId){
-            this.loginManager.login(userId, UserType.USER);
+            return this.loginManager.login(userId, UserType.USER);
         }else{
             throw new IncorrectLogin();
         }
-        return "";
     }
 }

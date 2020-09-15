@@ -11,4 +11,6 @@ export default interface UserRepository{
     searchAll(): Promise<Nullable<User[]>>;
 
     loginUser(username:string, password:string): Promise<Nullable<UserId>>;
+
+    update(id:UserId, user: User): Promise<void>;
 }

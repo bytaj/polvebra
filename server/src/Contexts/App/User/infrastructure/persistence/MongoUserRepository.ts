@@ -5,6 +5,7 @@ import { UndefinedException } from '../../../../Shared/domain/exceptions/Undefin
 import { Nullable } from '../../../../Shared/domain/Nullable';
 import { MongoRepository } from '../../../../Shared/infrastructure/persistence/mongo/MongoRepository';
 import { UserId } from '../../../Shared/domain/User/UserId';
+import { Password } from '../../domain/Password';
 import User from '../../domain/User';
 import UserRepository from '../../domain/UserRepository';
 import UserModel from './mongo/UserModel';
@@ -13,14 +14,14 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
 
     public async save(user: User): Promise<void> {
         return this.publish(user.id.value, user)
-            .catch((err) => {
-                if (err instanceof
-                    mongoose.Error) {
-                    throw new DuplicateKeyException(err.message);
-                } else {
-                    throw new UndefinedException(err.message);
-                }
-            });
+                   .catch((err) => {
+                       if (err instanceof
+                           mongoose.Error) {
+                           throw new DuplicateKeyException(err.message);
+                       } else {
+                           throw new UndefinedException(err.message);
+                       }
+                   });
     }
 
     public async search(id: UserId): Promise<Nullable<User>> {
@@ -43,18 +44,22 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
         0 ? result : null;
     }
 
-    public async loginUser(username:string, password:string): Promise<Nullable<UserId>> {
-        return this.findByParams({username:username, password:password}).then((elements) =>{
-            if (elements?.length === 1){
-                return new UserId(elements[0]._id);
-            }else{
-                return null;
-            }
-        });
+    public async loginUser(username: string, password: string): Promise<Nullable<UserId>> {
+        return this.classModel().find({username: username}).select('password').exec()
+                   .then((elements: any[]) => {
+                       if (!elements) return null;
+                       const element = elements[0].toObject({getters: true});
+                       if(!Password.comparePassword(password, element.password)) return null;
+                       return new UserId(element._id);
+                   });
     }
 
     protected classModel(): Model<any> {
         return UserModel;
+    }
+
+    public async update(id: UserId, user: User): Promise<void> {
+        return this.modify(id.value, user);
     }
 
 }
