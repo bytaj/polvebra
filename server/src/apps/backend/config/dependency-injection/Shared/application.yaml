@@ -17,7 +17,7 @@ services:
 
   Polvebra.shared.SessionManager:
     class: ../../../../../Contexts/App/Shared/infrastructure/SessionManagerJWT
-    arguments: []
+    arguments: ['@Polvebra.shared.TokenRepository', '@Polvebra.shared.Logger']
 
   Polvebra.shared.AuthenticationManager:
     class: ../../../../../Contexts/Shared/application/AuthenticationManager

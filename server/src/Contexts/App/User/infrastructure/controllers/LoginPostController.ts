@@ -11,13 +11,14 @@ export class LoginPostController implements Controller {
 
     async run(req: Request, res: Response) {
         const username: string = req.body.username;
-        const password: string = req.body.passwordB;
+        const password: string = req.body.password;
 
         try {
              const loginTokens: LoginTokens = await this.userLogin.run(username, password);
-             res.json(loginTokens).status(httpStatus.OK);
+             res.status(httpStatus.OK).json(loginTokens);
         } catch (error) {
             res.status(MapperErrorToHttpCode(error));
+            res.end();
         }
     }
 }

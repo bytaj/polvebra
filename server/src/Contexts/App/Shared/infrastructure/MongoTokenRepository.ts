@@ -18,7 +18,7 @@ export class MongoTokenRepository implements TokenRepository{
 
     public findTokenByUser(userId: string): Promise<Nullable<string>> {
         return TokenModel.find({userId: userId}).exec().then((value => {
-            if (value){
+            if (value[0]){
                 return (value[0] as any).value;
             }else{
                 return null;

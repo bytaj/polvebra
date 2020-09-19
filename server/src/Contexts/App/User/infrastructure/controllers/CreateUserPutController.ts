@@ -26,8 +26,8 @@ export class CreateUserPutController implements Controller {
                                                         passwordA: passwordA,
                                                         passwordB: passwordB
                                                     });
-            res.json(user);
             res.status(httpStatus.CREATED);
+            res.json(user.toPrimitives());
             res.send();
         } catch (error) {
             res.status(MapperErrorToHttpCode(error));

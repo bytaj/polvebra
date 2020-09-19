@@ -53,10 +53,8 @@ export default class Account extends AggregateRoot {
 
     static create(accountId: AccountId,
                   userId: UserId,
-                  name: AccountName,
-                  balance: Balance,
-                  netBalance: Balance): Account {
-        return new Account(accountId, userId, name, balance, netBalance);
+                  name: AccountName): Account {
+        return new Account(accountId, userId, name, new Balance(0), new Balance(0));
     }
 
     static fromPrimitives(plainData: {

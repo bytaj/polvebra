@@ -69,10 +69,8 @@ export default class Tag extends AggregateRoot {
                   user: UserId,
                   parentTag: Nullable<TagId>,
                   name: TagName,
-                  description: TagDescription,
-                  balance: Balance,
-                  netBalance: Balance): Tag {
-        return new Tag(tagId, user, parentTag, name, description, balance, netBalance);
+                  description: TagDescription): Tag {
+        return new Tag(tagId, user, parentTag, name, description, new Balance(0), new Balance(0));
     }
 
     static fromPrimitives(plainData: {

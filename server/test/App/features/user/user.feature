@@ -17,10 +17,15 @@ Feature: User CRUD
     Then the response content should be:
     """
     {
-        "username": "testName",
-        "name": "test name",
-        "email": "tes@test.com",
-        "passwordA": "passwordTest",
-        "passwordB": "passwordTest"
+      "username": "testName",
+      "name": "test name",
+      "email": "tes@test.com",
+      "balance": 0,
+      "netBalance": 0
     }
     """
+  Scenario: Login a user
+    Given a user "user1" registered in the application
+    When I log the user with username "user1" and password "testPassword"
+    And I send a GET request to "/me"
+    Then the response status code should be 200

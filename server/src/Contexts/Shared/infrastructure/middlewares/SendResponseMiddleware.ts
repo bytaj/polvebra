@@ -1,6 +1,8 @@
-export default function( req:any, res:any, next:any ) {
+import {Response} from 'express';
+
+export default function( req:any, res:Response, next:any ) {
     if (!res.headersSent){
         res.send();
     }
-    next();
+    res.end();
 }

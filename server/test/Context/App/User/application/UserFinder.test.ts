@@ -73,7 +73,7 @@ beforeAll(() => {
 
 describe('One user finds users', () => {
     it('User finds his own', async () => {
-        await expect(userFinder.run(userAId, new UserPetition(userAId, UserType.USER)))
+        await expect(userFinder.run(null, new UserPetition(userAId, UserType.USER)))
             .resolves
             .toEqual([userA]);
     });

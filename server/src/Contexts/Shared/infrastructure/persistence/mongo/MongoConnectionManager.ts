@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import config from '../../../../../apps/backend/config/config';
 import container from '../../../../../apps/backend/config/dependency-injection';
 import Logger from '../../../domain/Logger';
 import { ConnectionManager } from '../ConnectionManager';
@@ -16,8 +15,9 @@ export class MongoConnectionManager implements ConnectionManager{
     public async connect(): Promise<any> {
 
         mongoose.set('useCreateIndex', true);
-        //mongoose.set('debug', true);
-        return await mongoose.connect(config.get('mongo.url'), {
+        if (!process.env.MONGO_URL || !process.env.NODE_ENV) throw new Error();
+        const uri = process.env.MONGO_URL + "_" + process.env.NODE_ENV;
+        return await mongoose.connect(uri, {
             useUnifiedTopology: true,
             useNewUrlParser: true
         });

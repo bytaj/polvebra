@@ -10,4 +10,10 @@ export class UserPetition{
         this.type =type;
     }
 
+    public toPrimitives(){
+        return {
+            id: this.id,
+            type: this.type
+        }
+    }
 }

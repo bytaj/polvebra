@@ -1,5 +1,6 @@
 import container from '../../../../../src/apps/backend/config/dependency-injection';
 import { UserId } from '../../../../../src/Contexts/App/Shared/domain/User/UserId';
+import { Password } from '../../../../../src/Contexts/App/User/domain/Password';
 import User from '../../../../../src/Contexts/App/User/domain/User';
 import UserRepository from '../../../../../src/Contexts/App/User/domain/UserRepository';
 import { DuplicateKeyException } from '../../../../../src/Contexts/Shared/domain/exceptions/DuplicateKeyException';
@@ -20,6 +21,9 @@ afterAll(async () => {
     await (await environmentArranger).close();
 });
 
+const passwordAPlain:string = 'passwordA';
+const passwordBPlain:string = 'passwordB';
+const passwordCPlain:string = 'passwordC';
 const userAId: UserId = UserId.random();
 const userBId: UserId = UserId.random();
 const userCId: UserId = UserId.random();
@@ -30,7 +34,7 @@ function createUserA(): User {
                                    username: 'testA',
                                    name: 'Test Name A',
                                    email: 'emailA@test.com',
-                                   password: 'passwordA',
+                                   password: Password.encryptPassword(passwordAPlain),
                                    balance: 1,
                                    netBalance: 0,
                                });
@@ -42,7 +46,7 @@ function createUserB(): User {
                                    username: 'testB',
                                    name: 'Test Name B',
                                    email: 'emailB@test.com',
-                                   password: 'passwordB',
+                                   password: Password.encryptPassword(passwordBPlain),
                                    balance: 1,
                                    netBalance: 0,
                                });
@@ -54,7 +58,7 @@ function createUserC(): User {
                                    username: 'testC',
                                    name: 'Test Name C',
                                    email: 'emailC@test.com',
-                                   password: 'passwordC',
+                                   password: Password.encryptPassword(passwordCPlain),
                                    balance: 1,
                                    netBalance: 0,
                                });
@@ -75,7 +79,7 @@ describe('Save User', () => {
                                               username: 'testB',
                                               name: 'Test Name B',
                                               email: 'emailB@test.com',
-                                              password: 'passwordB',
+                                              password: Password.encryptPassword(passwordBPlain),
                                               balance: 1,
                                               netBalance: 0,
                                           });
@@ -91,7 +95,7 @@ describe('Save User', () => {
                                               username: 'testB',
                                               name: 'Test Name B',
                                               email: 'emailA@test.com',
-                                              password: 'passwordB',
+                                              password: Password.encryptPassword(passwordBPlain),
                                               balance: 1,
                                               netBalance: 0,
                                           });
@@ -107,7 +111,7 @@ describe('Save User', () => {
                                               username: 'testA',
                                               name: 'Test Name B',
                                               email: 'emailB@test.com',
-                                              password: 'passwordB',
+                                              password: Password.encryptPassword(passwordBPlain),
                                               balance: 1,
                                               netBalance: 0,
                                           });
@@ -150,9 +154,9 @@ describe('Login client', () => {
         const userIDB: UserId = userBPreSaved.id;
         await repository.save(userBPreSaved);
 
-        const userIDAFound = await repository.loginUser(userAPreSaved.username.value, userAPreSaved.password.value);
+        const userIDAFound = await repository.loginUser(userAPreSaved.username.value, passwordAPlain);
         expect(userIDAFound).toEqual(clientIDA);
-        const userIDBFound = await repository.loginUser(userBPreSaved.username.value, userBPreSaved.password.value);
+        const userIDBFound = await repository.loginUser(userBPreSaved.username.value, passwordBPlain);
         expect(userIDBFound).toEqual(userIDB);
     });
 });

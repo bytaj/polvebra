@@ -25,7 +25,7 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
     }
 
     public async search(id: UserId): Promise<Nullable<User>> {
-        let document = await this.findByID(id.toString());
+        let document = await this.findByID(id.value);
         return document ? User.fromPrimitives({...document, id: id.value}) : null;
     }
 

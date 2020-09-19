@@ -2,54 +2,63 @@ import * as jwt from 'jsonwebtoken';
 import { TokenNotExists } from '../../../Shared/domain/exceptions/TokenNotExists';
 import { TokenNotValid } from '../../../Shared/domain/exceptions/TokenNotValid';
 import { UndefinedException } from '../../../Shared/domain/exceptions/UndefinedException';
+import Logger from '../../../Shared/domain/Logger';
 import { Nullable } from '../../../Shared/domain/Nullable';
 import { TokenRepository } from '../../../Shared/domain/TokenRepository';
 import { SessionManager } from '../domain/SessionManager';
 import { UserPetition } from '../domain/User/UserPetition';
 
-export class SessionManagerJWT implements SessionManager{
-    constructor(private tokenRepository:TokenRepository) {
+export class SessionManagerJWT implements SessionManager {
+    constructor(private tokenRepository: TokenRepository, private logger: Logger) {
     }
 
     public async refreshToken(refreshToken: string): Promise<string> {
         const tokenDecoded = await this.checkIfRefreshTokenIsValid(refreshToken);
-        if (!tokenDecoded){
+        if (!tokenDecoded) {
             throw new TokenNotValid();
         }
-        if (!process.env.ACCESS_TOKEN_SECRET){
-            throw new UndefinedException("Key undefined");
+        if (!process.env.ACCESS_TOKEN_SECRET) {
+            throw new UndefinedException('Key undefined');
         }
-        return jwt.sign(new UserPetition(tokenDecoded.id, tokenDecoded.type), process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.TOKEN_EXPIRATION })
+        const userPetition: UserPetition = new UserPetition(tokenDecoded.id, tokenDecoded.type);
+        return jwt.sign(userPetition.toPrimitives(),
+                        process.env.ACCESS_TOKEN_SECRET,
+                        {expiresIn: process.env.TOKEN_EXPIRATION});
     }
 
-    public userFromSession(token: string): any {
-        if (!process.env.ACCESS_TOKEN_SECRET){
-            throw new UndefinedException("Key undefined");
+    public async userFromSession(token: string): Promise<UserPetition> {
+        let userPetition: Nullable<UserPetition> = null;
+        if (!process.env.ACCESS_TOKEN_SECRET) {
+            throw new UndefinedException('Key undefined');
         }
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, tokenDecoded:any) => {
-            if (err){
+        await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, tokenDecoded: any) => {
+            if (err) {
                 throw new TokenNotValid();
             }
-            return new UserPetition(tokenDecoded.id, tokenDecoded.type);
+            userPetition = new UserPetition(tokenDecoded.id, tokenDecoded.type);
         });
-
+        if (userPetition) {
+            return userPetition;
+        }
+        throw new TokenNotValid();
     }
 
-    private async checkIfRefreshTokenIsValid(token:string): Promise<Nullable<UserPetition>>{
-        if (!process.env.REFRESH_TOKEN_SECRET){
-            throw new UndefinedException("Key undefined");
+    private async checkIfRefreshTokenIsValid(token: string): Promise<Nullable<UserPetition>> {
+        let userPetition: Nullable<UserPetition> = null;
+        if (!process.env.REFRESH_TOKEN_SECRET) {
+            throw new UndefinedException('Key undefined');
         }
-        await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, tokenDecoded:any) => {
-            if (err){
+        await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, tokenDecoded: any) => {
+            if (err) {
                 throw new TokenNotValid();
             }
             const tokenExists = await this.tokenRepository.existsToken(token);
-            if (!tokenExists){
+            if (!tokenExists) {
                 throw new TokenNotExists();
             }
-            return new UserPetition(tokenDecoded.id, tokenDecoded.type);
+            userPetition = new UserPetition(tokenDecoded.id, tokenDecoded.type);
         });
-        return null;
+        return userPetition;
     }
 
 }

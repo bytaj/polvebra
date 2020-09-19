@@ -6,7 +6,7 @@ services:
 
   Polvebra.user.UserCreator:
     class: ../../../../../Contexts/App/User/application/UserCreator
-    arguments: [ '@Polvebra.user.UserRepository', '@Polvebra.shared.Logger' ]
+    arguments: [ '@Polvebra.user.UserRepository', '@Polvebra.account.AccountRepository', '@Polvebra.tag.TagRepository','@Polvebra.shared.Logger' ]
 
   Polvebra.user.UserFinder:
     class: ../../../../../Contexts/App/User/application/UserFinder
