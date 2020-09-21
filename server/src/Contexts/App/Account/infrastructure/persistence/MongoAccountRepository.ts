@@ -14,14 +14,14 @@ export class MongoAccountRepository extends MongoRepository<Account> implements 
 
     public async save(account: Account): Promise<void> {
         return this.publish(account.id.value, account)
-            .catch((err) => {
-                if (err instanceof
-                    mongoose.Error) {
-                    throw new DuplicateKeyException(err.message);
-                } else {
-                    throw new UndefinedException(err.message);
-                }
-            });
+                   .catch((err) => {
+                       if (err instanceof
+                           mongoose.Error) {
+                           throw new DuplicateKeyException(err.message);
+                       } else {
+                           throw new UndefinedException(err.message);
+                       }
+                   });
     }
 
     public async search(id: AccountId): Promise<Nullable<Account>> {
@@ -44,8 +44,30 @@ export class MongoAccountRepository extends MongoRepository<Account> implements 
         0 ? result : null;
     }
 
+    public async searchNRecentAccountsFromUser(id: UserId, numberOfAccounts: number): Promise<Nullable<Account[]>> {
+        const documents = await this.classModel()
+                                    .find({userId: id.value})
+                                    .sort({updatedAt: -1})
+                                    .limit(numberOfAccounts)
+                                    .exec()
+                                    .then(documents => {
+                                        return documents.map(doc => doc.toObject({getters: true}));
+                                    });
+
+        let result: Account[] = [];
+
+        if (documents) {
+
+            await documents.forEach(document => {
+                result.push(Account.fromPrimitives({...document, id: document._id}));
+            });
+        }
+        return result.length >
+        0 ? result : null;
+    }
+
     public async searchAllAccountsFromUser(id: UserId): Promise<Nullable<Account[]>> {
-        const documents = await this.findByParams({userId:id.value});
+        const documents = await this.findByParams({userId: id.value});
 
         let result: Account[] = [];
 

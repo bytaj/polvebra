@@ -5,6 +5,10 @@ services:
     arguments: []
 
 
+  Polvebra.account.MostRecentAccountFinder:
+    class: ../../../../../Contexts/App/Account/application/Finder/MostRecentAccountFinder
+    arguments: ['@Polvebra.account.AccountRepository', '@Polvebra.shared.Logger']
+
   Polvebra.account.AccountAmountIncrementer:
     class: ../../../../../Contexts/App/Account/application/Incrementer/AccountAmountIncrementer
     arguments: [

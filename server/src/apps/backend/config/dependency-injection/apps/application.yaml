@@ -12,6 +12,14 @@ services:
     class: ../../../../../Contexts/App/User/infrastructure/controllers/UserGetController
     arguments: ['@Polvebra.user.UserFinder']
 
+  Apps.polvebra.controllers.UserGetIndexController:
+    class: ../../../../../Contexts/App/User/infrastructure/controllers/UserGetIndexController
+    arguments: [ '@Polvebra.user.UserFinder' ]
+
   Apps.polvebra.controllers.LoginPostController:
     class: ../../../../../Contexts/App/User/infrastructure/controllers/LoginPostController
     arguments: [ '@Polvebra.user.UserLogin' ]
+
+  Apps.polvebra.controllers.AccountGetRecentController:
+    class: ../../../../../Contexts/App/Account/infrastructure/controllers/AccountGetRecentController
+    arguments: [ '@Polvebra.account.MostRecentAccountFinder' ]

@@ -5,9 +5,8 @@ import TokenModel from './TokenModel';
 export class MongoTokenRepository implements TokenRepository{
     public async createToken(userId: string, token: string): Promise<any> {
         const currentToken = await this.findTokenByUser(userId);
-        if (!currentToken){
+        if (currentToken){
             await this.deleteToken(userId);
-
         }
         return new TokenModel({userId: userId, value:token}).save()
     }

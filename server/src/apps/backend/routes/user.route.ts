@@ -7,9 +7,10 @@ export const register = (app: Express) => {
     const userPutController= container.get('Apps.polvebra.controllers.CreateUserPutController');
     app.put('/register', userPutController.run.bind(userPutController));
 
-    const userGetController = container.get('Apps.polvebra.controllers.UserGetController');
-    app.get('/me', PreAuthMiddleware, userGetController.run.bind(userGetController));
+    const userGetIndexController = container.get('Apps.polvebra.controllers.UserGetIndexController');
+    app.get('/me', PreAuthMiddleware, userGetIndexController.run.bind(userGetIndexController));
 
+    const userGetController = container.get('Apps.polvebra.controllers.UserGetController');
     app.get('/user/:id', PreAuthMiddleware, userGetController.run.bind(userGetController));
 
     const loginPostController = container.get('Apps.polvebra.controllers.LoginPostController');
