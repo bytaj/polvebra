@@ -7,12 +7,14 @@ import PeriodicTransaction from '../../../../../src/Contexts/App/Transaction/dom
 import PeriodicTransactionRepository from '../../../../../src/Contexts/App/Transaction/domain/PeriodicTransactionRepository';
 import { DuplicateKeyException } from '../../../../../src/Contexts/Shared/domain/exceptions/DuplicateKeyException';
 import { EnvironmentArranger } from '../../../Shared/infrastructure/arranger/EnvironmentArranger';
+import { setUp } from '../../../../../src/Contexts/Shared/infrastructure/EnvironementSetUp';
 
 const repository: PeriodicTransactionRepository = container.get(
     'Polvebra.transaction.PeriodicTransactionRepository');
 const environmentArranger: EnvironmentArranger = container.get('App.EnvironmentArranger');
 
 beforeAll(async () => {
+    setUp();
     await (await environmentArranger).setUp();
 });
 

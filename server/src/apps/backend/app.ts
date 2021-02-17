@@ -2,7 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import helmet from 'helmet';
 import compress from 'compression';
-import dotenv from 'dotenv';
+import { setUp } from '../../Contexts/Shared/infrastructure/EnvironementSetUp';
 import container from './config/dependency-injection';
 import { registerRoutes } from './routes';
 
@@ -10,7 +10,7 @@ const app: express.Express = express();
 
 app.set('port', process.env.PORT || 3000);
 
-dotenv.config();
+setUp()
 const connectionManager = container.get('Polvebra.shared.ConnectionManager');
 connectionManager.connect();
 app.use(bodyParser.json());

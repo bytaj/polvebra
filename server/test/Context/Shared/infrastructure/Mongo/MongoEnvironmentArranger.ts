@@ -4,11 +4,11 @@ import { EnvironmentArranger } from '../arranger/EnvironmentArranger';
 
 export class MongoEnvironmentArranger extends EnvironmentArranger {
   constructor(private connectionManager: ConnectionManager){
-    super()
+    super();
   }
 
   public async arrange(): Promise<void> {
-    await (await this.connectionManager.connect()).connection.dropDatabase();
+    await (await this.connectionManager.connection()).connection.dropDatabase();
   }
 
   public async close(): Promise<void> {

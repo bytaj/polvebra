@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import { instance, mock, when } from 'ts-mockito';
 import { LoginManager } from '../../../../../src/Contexts/App/Shared/domain/LoginManager';
 import { LoginTokens } from '../../../../../src/Contexts/App/Shared/domain/LoginTokens';
@@ -10,6 +9,7 @@ import { JWTLogin } from '../../../../../src/Contexts/App/Shared/infrastructure/
 import { SessionManagerJWT } from '../../../../../src/Contexts/App/Shared/infrastructure/SessionManagerJWT';
 import Logger from '../../../../../src/Contexts/Shared/domain/Logger';
 import { TokenRepository } from '../../../../../src/Contexts/Shared/domain/TokenRepository';
+import { setUp } from '../../../../../src/Contexts/Shared/infrastructure/EnvironementSetUp';
 
 let loginManager: LoginManager;
 let sessionManager: SessionManager;
@@ -18,7 +18,7 @@ let userType: UserType = UserType.USER;
 let logger:Logger;
 
 beforeAll(() => {
-    dotenv.config();
+    setUp();
     let mockTokenRepository: TokenRepository = mock<TokenRepository>();
 
     const mockLogger: Logger = mock<Logger>();

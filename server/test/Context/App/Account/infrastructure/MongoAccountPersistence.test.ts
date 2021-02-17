@@ -5,11 +5,13 @@ import Account from '../../../../../src/Contexts/App/Account/domain/Account';
 import AccountRepository from '../../../../../src/Contexts/App/Account/domain/AccountRepository';
 import { DuplicateKeyException } from '../../../../../src/Contexts/Shared/domain/exceptions/DuplicateKeyException';
 import { EnvironmentArranger } from '../../../Shared/infrastructure/arranger/EnvironmentArranger';
+import { setUp } from '../../../../../src/Contexts/Shared/infrastructure/EnvironementSetUp';
 
 const repository: AccountRepository = container.get('Polvebra.account.AccountRepository');
 const environmentArranger: EnvironmentArranger = container.get('App.EnvironmentArranger');
 
 beforeAll(async () => {
+    setUp();
     await (await environmentArranger).setUp();
 });
 

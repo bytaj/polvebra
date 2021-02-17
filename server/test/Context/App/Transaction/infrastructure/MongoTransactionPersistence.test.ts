@@ -7,11 +7,13 @@ import Transaction from '../../../../../src/Contexts/App/Transaction/domain/Tran
 import TransactionRepository from '../../../../../src/Contexts/App/Transaction/domain/TransactionRepository';
 import { DuplicateKeyException } from '../../../../../src/Contexts/Shared/domain/exceptions/DuplicateKeyException';
 import { EnvironmentArranger } from '../../../Shared/infrastructure/arranger/EnvironmentArranger';
+import { setUp } from '../../../../../src/Contexts/Shared/infrastructure/EnvironementSetUp';
 
 const repository: TransactionRepository = container.get('Polvebra.transaction.TransactionRepository');
 const environmentArranger: EnvironmentArranger = container.get('App.EnvironmentArranger');
 
 beforeAll(async () => {
+    setUp();
     await (await environmentArranger).setUp();
 });
 

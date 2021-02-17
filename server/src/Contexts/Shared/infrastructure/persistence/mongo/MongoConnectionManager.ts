@@ -4,23 +4,34 @@ import Logger from '../../../domain/Logger';
 import { ConnectionManager } from '../ConnectionManager';
 
 export class MongoConnectionManager implements ConnectionManager{
+    logger: Logger = container.get('Polvebra.shared.Logger');
+    _connection: any;
     constructor() {
     }
-    logger: Logger = container.get('Polvebra.shared.Logger');
 
     public async close(): Promise<void> {
         return await mongoose.disconnect().then(db => this.logger.info('MongoDB is disconnected ' + db));
     }
 
+    public async connection(): Promise<any> {
+        if (!this._connection){
+            await this.connect();
+        }
+        return this._connection;
+    }
+
     public async connect(): Promise<any> {
 
         mongoose.set('useCreateIndex', true);
-        if (!process.env.MONGO_URL || !process.env.NODE_ENV) throw new Error();
-        const uri = process.env.MONGO_URL + "_" + process.env.NODE_ENV;
-        return await mongoose.connect(uri, {
+        if (!process.env.MONGO_URL) throw new Error();
+        const uri = process.env.MONGO_URL;
+        this._connection = await mongoose.connect(uri, {
             useUnifiedTopology: true,
             useNewUrlParser: true
         });
+        return this.connection()
     }
+
+
 
 }

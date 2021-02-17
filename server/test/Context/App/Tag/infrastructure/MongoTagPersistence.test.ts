@@ -5,11 +5,13 @@ import Tag from '../../../../../src/Contexts/App/Tag/domain/Tag';
 import TagRepository from '../../../../../src/Contexts/App/Tag/domain/TagRepository';
 import { DuplicateKeyException } from '../../../../../src/Contexts/Shared/domain/exceptions/DuplicateKeyException';
 import { EnvironmentArranger } from '../../../Shared/infrastructure/arranger/EnvironmentArranger';
+import { setUp } from '../../../../../src/Contexts/Shared/infrastructure/EnvironementSetUp';
 
 const repository: TagRepository = container.get('Polvebra.tag.TagRepository');
 const environmentArranger: EnvironmentArranger = container.get('App.EnvironmentArranger');
 
 beforeAll(async () => {
+    setUp();
     await (await environmentArranger).setUp();
 });
 
